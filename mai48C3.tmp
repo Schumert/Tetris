@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://rf7whf3esicw"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_pkyhh"]
+[ext_resource type="Texture2D" uid="uid://2bpt0kvtkqsp" path="res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png" id="1_ye056"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8jtd8"]
+texture = ExtResource("1_ye056")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_uwjfr"]
+tile_size = Vector2i(32, 32)
+sources/1 = SubResource("TileSetAtlasSource_8jtd8")
+
+[node name="TileMap" type="TileMap"]
+tile_set = SubResource("TileSet_uwjfr")
+cell_quadrant_size = 32
+format = 2
+layer_0/name = "board"
+layer_0/tile_data = PackedInt32Array(0, 589825, 0, 65536, 589825, 0, 131072, 589825, 0, 196608, 589825, 0, 262144, 589825, 0, 327680, 589825, 0, 393216, 589825, 0, 458752, 589825, 0, 524288, 589825, 0, 589824, 589825, 0, 655360, 589825, 0, 720896, 589825, 0, 786432, 589825, 0, 851968, 589825, 0, 917504, 589825, 0)
+layer_1/name = "active"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("1_pkyhh")

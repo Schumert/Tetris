@@ -1,0 +1,53 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1710844804
+icon.svg::CompressedTexture2D::1575636068426309231::1710618293::1710618305::1::::<><>::
+Main.gd::GDScript::-1::1710833328::0::1::::<>TileMap<>::
+main.tscn::PackedScene::1205514838517011082::1710833331::0::1::::<><>::res://Main.gd<>uid://2bpt0kvtkqsp::::res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png
+::res://Tetriminos/::1710621791
+base.png::CompressedTexture2D::1337607804263164739::1710621787::1710621791::1::::<><>::
+README.txt::TextFile::-1::1710621787::0::1::::<><>::
+Tilemap.png::CompressedTexture2D::7222362994245840011::1710621788::1710621789::1::::<><>::
+::res://Tetriminos/Board/::1710621788
+BG_1.png::CompressedTexture2D::2948628792631743953::1710621787::1710621788::1::::<><>::
+BG_2.png::CompressedTexture2D::8142934913761011342::1710621787::1710621788::1::::<><>::
+Board.png::CompressedTexture2D::2410175723648530805::1710621787::1710621788::1::::<><>::
+Border.png::CompressedTexture2D::1276444465694754893::1710621787::1710621788::1::::<><>::
+::res://Tetriminos/Board/psd/::1710621787
+::res://Tetriminos/Ghost/::1710621788
+I.png::CompressedTexture2D::4884754181389696322::1710621787::1710621788::1::::<><>::
+J.png::CompressedTexture2D::6004846746731547864::1710621787::1710621788::1::::<><>::
+L.png::CompressedTexture2D::6511216931679459154::1710621787::1710621788::1::::<><>::
+O.png::CompressedTexture2D::3922944709451372230::1710621787::1710621788::1::::<><>::
+S.png::CompressedTexture2D::7328549202773094306::1710621787::1710621788::1::::<><>::
+Single.png::CompressedTexture2D::1203538890462011063::1710621787::1710621788::1::::<><>::
+T.png::CompressedTexture2D::8983208548043047166::1710621787::1710621788::1::::<><>::
+Z.png::CompressedTexture2D::5147351996566211869::1710621787::1710621788::1::::<><>::
+::res://Tetriminos/Ghost/psd/::1710621787
+::res://Tetriminos/Sample/::1710621788
+Sample_1.png::CompressedTexture2D::598430846019864929::1710621787::1710621788::1::::<><>::
+Sample_2.png::CompressedTexture2D::750940695944711265::1710621787::1710621788::1::::<><>::
+::res://Tetriminos/Shape Blocks/::1710621788
+I.png::CompressedTexture2D::3862640191663892734::1710621787::1710621788::1::::<><>::
+J.png::CompressedTexture2D::1617405808381235473::1710621787::1710621788::1::::<><>::
+L.png::CompressedTexture2D::7694391174291231455::1710621787::1710621788::1::::<><>::
+O.png::CompressedTexture2D::4289869622104831245::1710621787::1710621788::1::::<><>::
+S.png::CompressedTexture2D::8546667736589899754::1710621787::1710621788::1::::<><>::
+T.png::CompressedTexture2D::5691719834276202945::1710621787::1710621788::1::::<><>::
+Z.png::CompressedTexture2D::4502757242641996810::1710621787::1710621788::1::::<><>::
+::res://Tetriminos/Shape Blocks/psd/::1710621787
+::res://Tetriminos/Single Blocks/::1710621788
+Blue.png::CompressedTexture2D::7617508128157750285::1710621787::1710621788::1::::<><>::
+Green.png::CompressedTexture2D::4091771390107991574::1710621787::1710621788::1::::<><>::
+LightBlue.png::CompressedTexture2D::1452776372162697590::1710621787::1710621788::1::::<><>::
+Orange.png::CompressedTexture2D::1372098661739585718::1710621787::1710621788::1::::<><>::
+Purple.png::CompressedTexture2D::2990400330917651645::1710621788::1710621788::1::::<><>::
+Red.png::CompressedTexture2D::5415573019494006757::1710621788::1710621788::1::::<><>::
+Yellow.png::CompressedTexture2D::432167347357733343::1710621788::1710621788::1::::<><>::
+::res://Tetriminos/Single Blocks/PSD/::1710621788
+::res://Tetriminos/Title/::1710621788
+Title.png::CompressedTexture2D::3156890663898033959::1710621788::1710621788::1::::<><>::
+Title_No_BG.png::CompressedTexture2D::2569578959667326506::1710621788::1710621788::1::::<><>::
+::res://Tetriminos/Title/psd/::1710621788
+::res://Tetris Block Assets/::1710621631
+::res://Tetris Block Assets/Tetris Block Assets/::1710621781
+tetris tiles.png::CompressedTexture2D::1898109170468368339::1710621781::1710621631::1::::<><>::
