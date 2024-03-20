@@ -1,5 +1,8 @@
-Camera2D
 TileMap
+Label
+CanvasLayer
+Timer
+Camera2D
 Node2D
 Panel
 CanvasModulate

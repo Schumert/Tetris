@@ -43,11 +43,10 @@ const COL:int = 10
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps := [0, 0, 0]
-const steps_req : int = 5000
+const steps_req : int = 50
 const start_pos := Vector2i(5, 1)
 var cur_pos : Vector2i
-var speed : float
-const ACCEL : float = 0.05
+const ACCEL : float = 0.01
 
 var line_clear : int
 var score : int
@@ -78,23 +77,47 @@ func _ready():
 	print(pick_piece())
 
 func _process(delta):
-	if Input.is_action_pressed("ui_left"):
-		steps[0] += 1000
-	if Input.is_action_pressed("ui_right"):
-		steps[1] += 1000
-	if Input.is_action_pressed("ui_down"):
-		steps[2] += 1000
+	#if Input.is_action_pressed("ui_left"):
+	#	steps[0] += 5
+	#if Input.is_action_pressed("ui_right"):
+	#	steps[1] += 5
+	#if Input.is_action_pressed("ui_down"):
+	#	steps[2] += 5
 	if Input.is_action_just_pressed("ui_up"):
 		rotate_piece()
 	if Input.is_action_just_pressed("change_block"):
 		stash_block()
+	if Input.is_action_just_pressed("land_instant"):
+		land_instant()
 
-	steps[2] += speed
+
+	
+	
+
+	#steps[2] += speed
 	#move the piece
-	for ii in range(steps.size()):
-		if steps[ii] >= steps_req:
-			move_piece(directions[ii])
-			steps[ii] = 0
+	#for ii in range(steps.size()):
+	#	if steps[ii] >= steps_req:
+	#		move_piece(directions[ii])
+	#		steps[ii] = 0
+
+func _input(event):
+	if Input.is_action_pressed("ui_left"):
+		move_piece(Vector2i.LEFT)
+	if Input.is_action_pressed("ui_right"):
+		move_piece(Vector2i.RIGHT)
+	if Input.is_action_pressed("ui_down"):
+		move_piece(Vector2i.DOWN)
+
+
+
+func on_time_out():
+	move_piece(Vector2i.DOWN)
+
+func land_instant():
+	clear_piece()
+	while(can_move(Vector2i.DOWN)):
+		move_piece(Vector2i.DOWN)
 
 
 func new_game():
@@ -102,7 +125,6 @@ func new_game():
 	next_piece_type = pick_piece()
 	piece_atlas = Vector2i(shapes_full.find(piece_type) , 0)
 	next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
-	speed = 100
 	score = 0
 	create_piece()
 
@@ -124,7 +146,7 @@ func create_piece():
 	active_piece = piece_type[0]
 	draw_piece(active_piece, start_pos, piece_atlas)
 	#
-	draw_piece(next_piece_type[0], Vector2i(15, 6), next_piece_atlas)
+	draw_piece(next_piece_type[0], Vector2i(15, 4), next_piece_atlas)
 		
 
 
@@ -170,13 +192,13 @@ func check_rows():
 		if count == COL:
 			shift_row(row)
 			line_clear += 1
-			speed += ACCEL
+			if $Timer.wait_time >= 0.09:
+				$Timer.wait_time -= ACCEL
 			
 		else:
 			row -= 1
 	score += calculate_line_clear()
-	print(score)
-
+	$CanvasLayer/Score.text = "Score: %s" % [score]
 func calculate_line_clear():
 	var reward = 0
 
@@ -245,7 +267,7 @@ func draw_piece(piece, pos, atlas):
 
 func clean_panel():
 	for ii in range(14, 19):
-				for jj in range(5, 9):
+				for jj in range(3, 7):
 					erase_cell(active_layer, Vector2i(ii, jj))
 
 func change_block():
@@ -286,10 +308,10 @@ func stash_block():
 		stash_piece_atlas = temp_piece_atlas
 
 
-		for ii in range(14, 19):
-				for jj in range(-1, 3):
+		for ii in range(10, 20):
+				for jj in range(10, 20):
 					erase_cell(active_layer, Vector2i(ii, jj))
-		draw_piece(stash_piece_type[0], Vector2i(15, 0), stash_piece_atlas)
+		draw_piece(stash_piece_type[0], Vector2i(15, 15), stash_piece_atlas)
 
 		
 		
