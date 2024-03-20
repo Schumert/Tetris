@@ -46,6 +46,7 @@ var steps := [0, 0, 0]
 const steps_req : int = 50
 const start_pos := Vector2i(5, 1)
 var cur_pos : Vector2i
+var ghost_cur_pos : Vector2i
 const ACCEL : float = 0.01
 
 var line_clear : int
@@ -55,16 +56,19 @@ var game_running : bool
 var piece_type
 var next_piece_type
 var stash_piece_type
+var ghost_piece:Array
 var rotation_index : int = 0
 var active_piece:Array
 
 var tile_id: int = 1
 var piece_atlas:Vector2i
 var next_piece_atlas:Vector2i
+var ghost_piece_atlas:Vector2i
 var stash_piece_atlas:Vector2i
 
-var board_layer : int = 0
-var active_layer : int = 1
+var board_layer : int = 1
+var active_layer : int = 2
+var ghost_layer : int= 0
 
 var shapes = [i, j, l, s, z, o]
 var shapes_full = shapes.duplicate()
@@ -89,7 +93,9 @@ func _process(delta):
 		stash_block()
 	if Input.is_action_just_pressed("land_instant"):
 		land_instant()
-
+	
+	
+	
 
 	
 	
@@ -104,8 +110,10 @@ func _process(delta):
 func _input(event):
 	if Input.is_action_pressed("ui_left"):
 		move_piece(Vector2i.LEFT)
+		move_ghost_piece_hor(Vector2i.LEFT)
 	if Input.is_action_pressed("ui_right"):
 		move_piece(Vector2i.RIGHT)
+		move_ghost_piece_hor(Vector2i.RIGHT)
 	if Input.is_action_pressed("ui_down"):
 		move_piece(Vector2i.DOWN)
 
@@ -114,10 +122,15 @@ func _input(event):
 func on_time_out():
 	move_piece(Vector2i.DOWN)
 
+func on_time_out_ghost():
+	move_ghost_piece_down()
+	
+
 func land_instant():
 	clear_piece()
 	while(can_move(Vector2i.DOWN)):
 		move_piece(Vector2i.DOWN)
+	land_piece()
 
 
 func new_game():
@@ -125,8 +138,10 @@ func new_game():
 	next_piece_type = pick_piece()
 	piece_atlas = Vector2i(shapes_full.find(piece_type) , 0)
 	next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
+	ghost_piece_atlas = Vector2i(0, 1)
 	score = 0
 	create_piece()
+	
 
 
 func pick_piece():
@@ -143,11 +158,44 @@ func pick_piece():
 func create_piece():
 	steps = [0, 0 , 0]
 	cur_pos = start_pos
+	ghost_cur_pos = cur_pos
 	active_piece = piece_type[0]
+	ghost_piece = active_piece
 	draw_piece(active_piece, start_pos, piece_atlas)
 	#
 	draw_piece(next_piece_type[0], Vector2i(15, 4), next_piece_atlas)
-		
+	
+
+
+func can_ghost_move(dir):
+	var result = true
+	for ii in ghost_piece:
+		if not is_free( ii + ghost_cur_pos + dir):
+			result = false
+	return result
+
+
+func move_ghost_piece_down():
+	for ii in ghost_piece:
+			erase_cell(ghost_layer, ghost_cur_pos + ii)
+	ghost_cur_pos = cur_pos
+	while can_ghost_move(Vector2i.DOWN):
+		ghost_cur_pos += Vector2i.DOWN
+	
+	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
+	
+	
+func move_ghost_piece_hor(dir):
+	for ii in ghost_piece:
+		erase_cell(ghost_layer, ghost_cur_pos + ii)
+	if can_ghost_move(dir):
+		ghost_cur_pos += dir
+
+	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
+	
+
+
+
 
 
 var is_landed = false
@@ -174,6 +222,7 @@ func move_piece(dir):
 					is_block_change_used = false
 					clean_panel()
 					create_piece()
+					
 				else:
 					is_landed = false
 			
@@ -191,6 +240,7 @@ func check_rows():
 				count+=1
 		if count == COL:
 			shift_row(row)
+			
 			line_clear += 1
 			if $Timer.wait_time >= 0.09:
 				$Timer.wait_time -= ACCEL
@@ -221,6 +271,7 @@ func shift_row(row):
 			atlas = get_cell_atlas_coords(board_layer, Vector2i(col + 1, row - 1))
 			if is_free(atlas):
 				erase_cell(board_layer, Vector2i(col + 1, row))
+				erase_cell(ghost_layer,Vector2i(col + 1, row))
 			else:
 				set_cell(board_layer, Vector2i(col + 1, row), tile_id, atlas)
 		row-=1
@@ -242,9 +293,15 @@ func land_piece():
 func rotate_piece():
 	if can_rotate():
 		clear_piece()
+		for ii in ghost_piece:
+			erase_cell(ghost_layer, ghost_cur_pos + ii)
 		rotation_index = (rotation_index + 1) % 4
 		active_piece = piece_type[rotation_index]
+		ghost_piece = active_piece
+
 		draw_piece(active_piece, cur_pos, piece_atlas)
+		
+		
 
 func can_rotate():
 	var cr = true
@@ -264,6 +321,11 @@ func is_free(pos):
 func draw_piece(piece, pos, atlas):
 	for ii in piece:
 		set_cell(active_layer, pos + ii, tile_id, atlas)
+
+func draw_piece_ghost(piece, pos, atlas):
+	for ii in piece:
+		set_cell(ghost_layer, pos + ii, 0, atlas)
+
 
 func clean_panel():
 	for ii in range(14, 19):
@@ -291,9 +353,11 @@ func stash_block():
 	if !is_block_change_used:
 		var temp_piece_type = piece_type
 		var temp_piece_atlas = piece_atlas
+		for ii in ghost_piece:
+				erase_cell(ghost_layer, ghost_cur_pos + ii)
 
 		if stash_piece_type == null:
-
+			
 
 			piece_type = next_piece_type
 			piece_atlas = next_piece_atlas
