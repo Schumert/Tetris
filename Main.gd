@@ -313,6 +313,7 @@ func clear_piece():
 func is_free(pos):
 	return get_cell_source_id(board_layer, pos) == -1
 
+
 func draw_piece(piece, pos, atlas):
 	for ii in piece:
 		set_cell(active_layer, pos + ii, tile_id, atlas)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://rf7whf3esicw"]
+[gd_scene load_steps=16 format=3 uid="uid://rf7whf3esicw"]
 
 [ext_resource type="Texture2D" uid="uid://bialqrey8thef" path="res://Tetriminos/Board/BG_1.png" id="1_k2f7g"]
 [ext_resource type="Script" path="res://Main.gd" id="1_pkyhh"]
 [ext_resource type="Texture2D" uid="uid://2bpt0kvtkqsp" path="res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png" id="1_ye056"]
+[ext_resource type="Texture2D" uid="uid://d170ud0v3owvc" path="res://—Pngtree—frame webcam overlay gaming black_6485949.png" id="3_cys1c"]
 [ext_resource type="Texture2D" uid="uid://balrih2bknub2" path="res://Tetriminos/Board/Board.png" id="3_fks5a"]
 [ext_resource type="FontFile" uid="uid://bssw8fv7ddup0" path="res://return-of-ganon/retganon.ttf" id="4_mqrdu"]
 
@@ -28,10 +29,20 @@ texture_region_size = Vector2i(32, 32)
 8:0/0 = 0
 9:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1si03"]
+texture = ExtResource("3_cys1c")
+texture_region_size = Vector2i(32, 32)
+1:2/0 = 0
+18:50/0 = 0
+7:47/0 = 0
+7:51/0 = 0
+8:51/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_uwjfr"]
 tile_size = Vector2i(32, 32)
 sources/1 = SubResource("TileSetAtlasSource_8jtd8")
 sources/0 = SubResource("TileSetAtlasSource_dur1s")
+sources/3 = SubResource("TileSetAtlasSource_1si03")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7awci"]
 texture = ExtResource("1_ye056")
@@ -69,8 +80,11 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_bayj3")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nho42"]
+texture = ExtResource("3_cys1c")
+
 [node name="TileMap" type="TileMap"]
-position = Vector2(0, 1)
+position = Vector2(288, 1)
 tile_set = SubResource("TileSet_uwjfr")
 cell_quadrant_size = 32
 format = 2
@@ -81,7 +95,7 @@ layer_1/modulate = Color(1, 1, 1, 1)
 layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 1
-layer_1/tile_data = PackedInt32Array(0, 589825, 0, 65536, 589825, 0, 131072, 589825, 0, 196608, 589825, 0, 262144, 589825, 0, 327680, 589825, 0, 393216, 589825, 0, 458752, 589825, 0, 524288, 589825, 0, 589824, 589825, 0, 655360, 589825, 0, 720896, 589825, 0, 786432, 589825, 0, 851968, 589825, 0, 917504, 589825, 0, 983040, 589825, 0, 1048576, 589825, 0, 1114112, 589825, 0, 1179648, 589825, 0, 8, 589825, 0, 7, 589825, 0, 6, 589825, 0, 5, 589825, 0, 4, 589825, 0, 3, 589825, 0, 2, 589825, 0, 1, 589825, 0, 9, 589825, 0, 10, 589825, 0, 11, 589825, 0, 65547, 589825, 0, 131083, 589825, 0, 196619, 589825, 0, 262155, 589825, 0, 327691, 589825, 0, 393227, 589825, 0, 458763, 589825, 0, 524299, 589825, 0, 589835, 589825, 0, 655371, 589825, 0, 720907, 589825, 0, 786443, 589825, 0, 851979, 589825, 0, 917515, 589825, 0, 983051, 589825, 0, 1048587, 589825, 0, 1114123, 589825, 0, 1179659, 589825, 0, 1245184, 589825, 0, 1245195, 589825, 0, 1310720, 589825, 0, 1376256, 589825, 0, 1376267, 589825, 0, 1310731, 589825, 0, 1376257, 589825, 0, 1376258, 589825, 0, 1376259, 589825, 0, 1376260, 589825, 0, 1376261, 589825, 0, 1376262, 589825, 0, 1376263, 589825, 0, 1376264, 589825, 0, 1376265, 589825, 0, 1376266, 589825, 0)
+layer_1/tile_data = PackedInt32Array(131072, 1179651, 50, 196608, 1179651, 50, 262144, 1179651, 50, 327680, 1179651, 50, 393216, 1179651, 50, 458752, 1179651, 50, 524288, 1179651, 50, 589824, 1179651, 50, 655360, 1179651, 50, 720896, 1179651, 50, 786432, 1179651, 50, 851968, 1179651, 50, 917504, 1179651, 50, 983040, 1179651, 50, 1048576, 1179651, 50, 1114112, 1179651, 50, 1179648, 1179651, 50, 1245184, 1179651, 50, 1310720, 1179651, 50, 1376256, 589825, 0, 1376257, 1179651, 50, 1376258, 1179651, 50, 1376259, 1179651, 50, 1376260, 1179651, 50, 1376261, 1179651, 50, 1376262, 1179651, 50, 1376263, 1179651, 50, 1376264, 1179651, 50, 1376265, 1179651, 50, 1376266, 1179651, 50, 1376267, 589825, 0, 1310731, 1179651, 50, 1245195, 1179651, 50, 1179659, 1179651, 50, 1114123, 1179651, 50, 1048587, 1179651, 50, 983051, 1179651, 50, 917515, 1179651, 50, 851979, 1179651, 50, 786443, 1179651, 50, 720907, 1179651, 50, 655371, 1179651, 50, 589835, 1179651, 50, 524299, 1179651, 50, 458763, 1179651, 50, 393227, 1179651, 50, 327691, 1179651, 50, 262155, 1179651, 50, 196619, 1179651, 50, 131083, 1179651, 50, 65547, 589825, 0, 11, 1179651, 50, 10, 1179651, 50, 9, 1179651, 50, 8, 1179651, 50, 7, 1179651, 50, 6, 1179651, 50, 5, 1179651, 50, 4, 1179651, 50, 3, 1179651, 50, 2, 1179651, 50, 65536, 589825, 0, 0, 1179651, 50, 1, 1179651, 50)
 layer_2/name = "active"
 layer_2/enabled = true
 layer_2/modulate = Color(1, 1, 1, 1)
@@ -105,38 +119,39 @@ texture = ExtResource("3_fks5a")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Score" type="Label" parent="CanvasLayer"]
-offset_left = 416.0
-offset_top = 320.0
-offset_right = 601.0
-offset_bottom = 384.0
+offset_left = 32.0
+offset_top = 64.0
+offset_right = 334.0
+offset_bottom = 156.0
 theme_override_fonts/font = ExtResource("4_mqrdu")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 75
 text = "Score: 0 "
 
 [node name="Next" type="Label" parent="CanvasLayer"]
-offset_left = 480.0
+offset_left = 704.0
 offset_top = 32.0
-offset_right = 633.0
-offset_bottom = 80.0
+offset_right = 928.0
+offset_bottom = 88.0
 theme_override_fonts/font = ExtResource("4_mqrdu")
-theme_override_font_sizes/font_size = 30
-text = "Next"
+theme_override_font_sizes/font_size = 60
+text = "N E X T"
+horizontal_alignment = 1
 
 [node name="Stash" type="Label" parent="CanvasLayer"]
-offset_left = 480.0
+offset_left = 704.0
 offset_top = 608.0
-offset_right = 633.0
+offset_right = 928.0
 offset_bottom = 656.0
 theme_override_fonts/font = ExtResource("4_mqrdu")
-theme_override_font_sizes/font_size = 30
-text = "Stash"
+theme_override_font_sizes/font_size = 50
+text = "S T A S H"
+horizontal_alignment = 1
 
 [node name="Panel" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_b0bav")
 cell_quadrant_size = 32
 format = 2
 layer_0/modulate = Color(1, 1, 1, 0.454902)
-layer_0/tile_data = PackedInt32Array(327693, 589824, 0, 262157, 589824, 0, 196621, 589824, 0, 196622, 589824, 0, 196623, 589824, 0, 196624, 589824, 0, 196625, 589824, 0, 393233, 589824, 0, 393232, 589824, 0, 393231, 589824, 0, 393230, 589824, 0, 393229, 589824, 0, 1114125, 589824, 0, 1048589, 589824, 0, 983053, 589824, 0, 917517, 589824, 0, 917518, 589824, 0, 917519, 589824, 0, 917520, 589824, 0, 917521, 589824, 0, 1114129, 589824, 0, 1114128, 589824, 0, 1114127, 589824, 0, 1114126, 589824, 0, 196626, 589824, 0, 393234, 589824, 0, 393235, 589824, 0, 327699, 589824, 0, 262163, 589824, 0, 196627, 589824, 0, 1114130, 589824, 0, 1114131, 589824, 0, 1048595, 589824, 0, 983059, 589824, 0, 917523, 589824, 0, 917522, 589824, 0)
 
 [node name="Ghost" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_2ta4f")
@@ -147,6 +162,20 @@ layer_0/modulate = Color(1, 1, 1, 0.498039)
 [node name="GhostTimer" type="Timer" parent="."]
 wait_time = 0.05
 autostart = true
+
+[node name="Panel2" type="Panel" parent="."]
+offset_left = 416.0
+offset_top = 383.0
+offset_right = 640.0
+offset_bottom = 639.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_nho42")
+
+[node name="Panel3" type="Panel" parent="."]
+offset_left = 416.0
+offset_top = 31.0
+offset_right = 640.0
+offset_bottom = 287.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_nho42")
 
 [connection signal="timeout" from="Timer" to="." method="on_time_out"]
 [connection signal="timeout" from="GhostTimer" to="." method="on_time_out_ghost"]
