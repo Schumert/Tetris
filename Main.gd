@@ -62,6 +62,7 @@ var rotation_index : int = 0
 var active_piece:Array
 
 var tile_id: int = 1
+var ghost_tile_id: int = 0
 var piece_atlas:Vector2i
 var next_piece_atlas:Vector2i
 var ghost_piece_atlas:Vector2i
@@ -320,7 +321,7 @@ func draw_piece(piece, pos, atlas):
 
 func draw_piece_ghost(piece, pos, atlas):
 	for ii in piece:
-		set_cell(ghost_layer, pos + ii, 0, atlas)
+		set_cell(ghost_layer, pos + ii, ghost_tile_id, atlas)
 
 
 func clean_panel():

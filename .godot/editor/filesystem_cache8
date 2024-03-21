@@ -1,8 +1,8 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1711060858
+::res://::1711064608
 icon.svg::CompressedTexture2D::1575636068426309231::1710618293::1710618305::1::::<><>::
-Main.gd::GDScript::-1::1711057619::0::1::::<>TileMap<>::
-main.tscn::PackedScene::1205514838517011082::1711059249::0::1::::<><>::uid://bialqrey8thef::::res://Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://d170ud0v3owvc::::res://—Pngtree—frame webcam overlay gaming black_6485949.png<>uid://balrih2bknub2::::res://Tetriminos/Board/Board.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf
+Main.gd::GDScript::-1::1711064606::0::1::::<>TileMap<>::
+main.tscn::PackedScene::1205514838517011082::1711064608::0::1::::<><>::uid://bialqrey8thef::::res://Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://balrih2bknub2::::res://Tetriminos/Board/Board.png<>uid://682c0vcnm8ak::::res://Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://d0k0oei6vue80::::res://Pato_Pack/Pato_Pack/Water animation/water_pato1.png<>uid://dp0jgfwwga7cv::::res://Pato_Pack/Pato_Pack/Assets/assets_pato.png
 StoneWall_TXR.png::CompressedTexture2D::5949090485732435466::1711058779::1711058780::1::::<><>::
 —Pngtree—frame webcam overlay gaming black_6485949.png::CompressedTexture2D::9051785911677616052::1711058001::1711058021::1::::<><>::
 ::res://font/::1710887813
@@ -24,7 +24,8 @@ patoemotes.png::CompressedTexture2D::5476000196933590679::1711060858::1711060858
 thumbnail art.png::CompressedTexture2D::5434612979310169754::1711060858::1711060858::1::::<><>::
 ::res://Pato_Pack/Pato_Pack/Tileset/::1711060858
 tileset_pato8.png::CompressedTexture2D::2245622894688880190::1711060858::1711060858::1::::<><>::
-::res://Pato_Pack/Pato_Pack/Water animation/::1711060858
+::res://Pato_Pack/Pato_Pack/Water animation/::1711065155
+AnimatedWaterSprite.png::CompressedTexture2D::2668190414918851111::1711065155::1711065155::1::::<><>::
 water_pato1.png::CompressedTexture2D::8936170069393729627::1711060858::1711060858::1::::<><>::
 water_pato2.png::CompressedTexture2D::3157651372876607611::1711060858::1711060858::1::::<><>::
 water_pato3.png::CompressedTexture2D::7060623517085540129::1711060858::1711060858::1::::<><>::
