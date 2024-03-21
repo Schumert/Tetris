@@ -92,8 +92,7 @@ layer_2/tile_data = PackedInt32Array()
 script = ExtResource("1_pkyhh")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
+wait_time = 0.1
 
 [node name="Board" type="Sprite2D" parent="."]
 visible = false

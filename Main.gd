@@ -43,10 +43,11 @@ const COL:int = 10
 #movement variables
 const directions := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.DOWN]
 var steps := [0, 0, 0]
-const steps_req : int = 50
+const steps_req : int = 100
 const start_pos := Vector2i(5, 1)
 var cur_pos : Vector2i
 var ghost_cur_pos : Vector2i
+var speed = 1
 const ACCEL : float = 0.01
 
 var line_clear : int
@@ -75,62 +76,68 @@ var shapes_full = shapes.duplicate()
 
 var is_block_change_used = false
 
+var left_pressed = false
+var right_pressed = false
+
 
 func _ready():
 	new_game()
 	print(pick_piece())
 
+
 func _process(delta):
-	#if Input.is_action_pressed("ui_left"):
-	#	steps[0] += 5
-	#if Input.is_action_pressed("ui_right"):
-	#	steps[1] += 5
-	#if Input.is_action_pressed("ui_down"):
-	#	steps[2] += 5
+	#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
+	if Input.is_action_just_pressed("ui_left"):
+		if not left_pressed:  
+			left_pressed = true
+			move_piece(Vector2i.LEFT)
+			await get_tree().create_timer(0.1).timeout
+			left_pressed = false
+
+	if Input.is_action_just_pressed("ui_right"):
+		if not right_pressed:  
+			right_pressed = true
+			move_piece(Vector2i.RIGHT)
+			await get_tree().create_timer(0.1).timeout
+			right_pressed = false
+
+	if not left_pressed and Input.is_action_pressed("ui_left"):
+		steps[0] += 30
+	if not right_pressed and Input.is_action_pressed("ui_right"):
+		steps[1] += 30
+	if Input.is_action_pressed("ui_down"):
+		steps[2] += 20
 	if Input.is_action_just_pressed("ui_up"):
 		rotate_piece()
 	if Input.is_action_just_pressed("change_block"):
 		stash_block()
 	if Input.is_action_just_pressed("land_instant"):
 		land_instant()
-	
-	
-	
 
-	
-	
-
-	#steps[2] += speed
+	steps[2] += speed
 	#move the piece
-	#for ii in range(steps.size()):
-	#	if steps[ii] >= steps_req:
-	#		move_piece(directions[ii])
-	#		steps[ii] = 0
+	for ii in range(steps.size()):
+		if steps[ii] >= steps_req:
+			move_piece(directions[ii])
+			move_ghost_piece_hor(Vector2i.DOWN)
+			steps[ii] = 0
 
-func _input(event):
-	if Input.is_action_pressed("ui_left"):
-		move_piece(Vector2i.LEFT)
-		move_ghost_piece_hor(Vector2i.LEFT)
-	if Input.is_action_pressed("ui_right"):
-		move_piece(Vector2i.RIGHT)
-		move_ghost_piece_hor(Vector2i.RIGHT)
-	if Input.is_action_pressed("ui_down"):
-		move_piece(Vector2i.DOWN)
+	if !can_move(Vector2i.DOWN):
+		await get_tree().create_timer(0.5).timeout
+		if !can_move(Vector2i.DOWN):
+			land_piece()
 
 
-
-func on_time_out():
-	move_piece(Vector2i.DOWN)
 
 func on_time_out_ghost():
 	move_ghost_piece_down()
 	
 
 func land_instant():
-	clear_piece()
 	while(can_move(Vector2i.DOWN)):
 		move_piece(Vector2i.DOWN)
 	land_piece()
+	
 
 
 func new_game():
@@ -198,35 +205,23 @@ func move_ghost_piece_hor(dir):
 
 
 
-var is_landed = false
 func move_piece(dir):
 	if can_move(dir):
 		clear_piece()
 		cur_pos+=dir
 		draw_piece(active_piece,cur_pos, piece_atlas)
-		is_landed = false
-	else:
-		if dir == directions[2] and is_landed == false:
-			is_landed = true
-			#needs polishing
-			while is_landed:
-				await get_tree().create_timer(0.5).timeout
-				if !can_move(dir):
-					print("landed")
-					land_piece()
-					check_rows()
-					piece_type = next_piece_type
-					piece_atlas = next_piece_atlas
-					next_piece_type = pick_piece()
-					next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
-					is_block_change_used = false
-					clean_panel()
-					create_piece()
-					
-				else:
-					is_landed = false
-			
-			
+
+func land_piece():
+		print("landed")
+		set_board_layer()
+		check_rows()
+		piece_type = next_piece_type
+		piece_atlas = next_piece_atlas
+		next_piece_type = pick_piece()
+		next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
+		is_block_change_used = false
+		clean_panel()
+		create_piece()
 
 
 
@@ -284,7 +279,7 @@ func can_move(dir):
 	return result
 
 
-func land_piece():
+func set_board_layer():
 	for ii in active_piece:
 		erase_cell(active_layer, cur_pos + ii)
 		set_cell(board_layer, cur_pos + ii, tile_id, piece_atlas)

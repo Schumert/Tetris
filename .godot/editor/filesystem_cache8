@@ -1,8 +1,8 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1710928308
+::res://::1711041469
 icon.svg::CompressedTexture2D::1575636068426309231::1710618293::1710618305::1::::<><>::
-Main.gd::GDScript::-1::1710899780::0::1::::<>TileMap<>::
-main.tscn::PackedScene::1205514838517011082::1710901607::0::1::::<><>::res://Main.gd<>uid://2bpt0kvtkqsp::::res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://balrih2bknub2::::res://Tetriminos/Board/Board.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf
+Main.gd::GDScript::-1::1710936730::0::1::::<>TileMap<>::
+main.tscn::PackedScene::1205514838517011082::1710952099::0::1::::<><>::uid://bialqrey8thef::::res://Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://balrih2bknub2::::res://Tetriminos/Board/Board.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf
 ::res://font/::1710887813
 license.txt::TextFile::-1::1710887804::0::1::::<><>::
 yoster.ttf::FontFile::1094207186506321486::1710887804::1710887813::1::::<><>::
