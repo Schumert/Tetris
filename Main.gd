@@ -54,7 +54,7 @@ const start_pos := Vector2i(5, 1)
 var cur_pos : Vector2i
 var ghost_cur_pos : Vector2i
 var speed = 1
-const ACCEL : float = 0.01
+const ACCEL : float = 0.15
 
 var line_clear : int
 var score : int
@@ -262,8 +262,7 @@ func check_rows():
 			$Audio/Splash.play()
 			
 			line_clear += 1
-			if $Timer.wait_time >= 0.09:
-				$Timer.wait_time -= ACCEL
+			speed += ACCEL
 			
 		else:
 			row -= 1
