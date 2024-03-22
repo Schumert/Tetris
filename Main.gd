@@ -83,10 +83,17 @@ var right_pressed = false
 
 func _ready():
 	new_game()
-	print(pick_piece())
-
+	print("Başlangıç rotation indexi" + str(rotation_index))
 
 func _process(delta):
+	if Input.is_action_just_pressed("ui_up"):
+		
+		rotate_piece()
+	if Input.is_action_just_pressed("change_block"):
+		stash_block()
+	if Input.is_action_just_pressed("land_instant"):
+		land_instant()
+
 	#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
 	if Input.is_action_just_pressed("ui_left"):
 		if not left_pressed:  
@@ -103,17 +110,11 @@ func _process(delta):
 			right_pressed = false
 
 	if not left_pressed and Input.is_action_pressed("ui_left"):
-		steps[0] += 30
+		steps[0] += 20
 	if not right_pressed and Input.is_action_pressed("ui_right"):
-		steps[1] += 30
+		steps[1] += 20
 	if Input.is_action_pressed("ui_down"):
 		steps[2] += 20
-	if Input.is_action_just_pressed("ui_up"):
-		rotate_piece()
-	if Input.is_action_just_pressed("change_block"):
-		stash_block()
-	if Input.is_action_just_pressed("land_instant"):
-		land_instant()
 
 	steps[2] += speed
 	#move the piece
@@ -122,6 +123,9 @@ func _process(delta):
 			move_piece(directions[ii])
 			move_ghost_piece_hor(Vector2i.DOWN)
 			steps[ii] = 0
+	move_ghost_piece_down()
+
+	
 
 	if !can_move(Vector2i.DOWN):
 		await get_tree().create_timer(0.5).timeout
@@ -130,8 +134,7 @@ func _process(delta):
 
 
 
-func on_time_out_ghost():
-	move_ghost_piece_down()
+
 	
 
 func land_instant():
@@ -213,9 +216,9 @@ func move_piece(dir):
 		draw_piece(active_piece,cur_pos, piece_atlas)
 
 func land_piece():
-		print("landed")
 		set_board_layer()
 		check_rows()
+		rotation_index = 0
 		piece_type = next_piece_type
 		piece_atlas = next_piece_atlas
 		next_piece_type = pick_piece()
@@ -287,15 +290,20 @@ func set_board_layer():
 
 
 func rotate_piece():
+	print("Fonksiyona girildi")
 	if can_rotate():
+		print("Dönebilir")
 		clear_piece()
 		for ii in ghost_piece:
 			erase_cell(ghost_layer, ghost_cur_pos + ii)
 		rotation_index = (rotation_index + 1) % 4
 		active_piece = piece_type[rotation_index]
 		ghost_piece = active_piece
+		
 
 		draw_piece(active_piece, cur_pos, piece_atlas)
+		print("Döndü %s" % str(rotation_index))
+		draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
 		
 		
 
@@ -303,7 +311,7 @@ func can_rotate():
 	var cr = true
 	var temp_rotation_index = (rotation_index + 1) % 4
 	for ii in piece_type[temp_rotation_index]:
-		if not is_free(ii + cur_pos):
+		if not is_free(cur_pos + ii):
 			cr = false
 	return cr
 
