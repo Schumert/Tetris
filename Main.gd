@@ -13,6 +13,12 @@ var j_180 := [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(2, 2)]
 var j_270 := [Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 2), Vector2i(1, 2)]
 var j := [j_0, j_90, j_180, j_270]
 
+var t_0 := [Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
+var t_90 := [Vector2i(1, 0), Vector2i(1, 1), Vector2i(2, 1), Vector2i(1, 2)]
+var t_180 := [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(1, 2)]
+var t_270 := [Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1), Vector2i(1, 2)]
+var t := [t_0, t_90, t_180, t_270]
+
 var l_0 := [Vector2i(2, 0), Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
 var l_90 := [Vector2i(1, 0), Vector2i(1, 1), Vector2i(1, 2), Vector2i(2, 2)]
 var l_180 := [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(0, 2)]
@@ -72,7 +78,7 @@ var board_layer : int = 1
 var active_layer : int = 2
 var ghost_layer : int= 0
 
-var shapes = [i, j, l, s, z, o]
+var shapes = [i, j, l, s, z, o, t]
 var shapes_full = shapes.duplicate()
 
 var is_block_change_used = false
@@ -80,19 +86,27 @@ var is_block_change_used = false
 var left_pressed = false
 var right_pressed = false
 
+var audio_ins
 
-func _ready():
+func _ready(): 
 	new_game()
+	audio_ins = get_node("Audio")
 	print("Başlangıç rotation indexi" + str(rotation_index))
+	
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_up"):
-		
 		rotate_piece()
+		audio_ins.rotate_sound()
 	if Input.is_action_just_pressed("change_block"):
 		stash_block()
+		$Audio/Stash.play()
 	if Input.is_action_just_pressed("land_instant"):
 		land_instant()
+		audio_ins.land_instant_sound()
+	
+	if Input.is_action_just_pressed("restart"):
+		get_tree().reload_current_scene()
 
 	#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
 	if Input.is_action_just_pressed("ui_left"):
@@ -101,6 +115,7 @@ func _process(delta):
 			move_piece(Vector2i.LEFT)
 			await get_tree().create_timer(0.1).timeout
 			left_pressed = false
+			audio_ins.move_sound()
 
 	if Input.is_action_just_pressed("ui_right"):
 		if not right_pressed:  
@@ -108,6 +123,9 @@ func _process(delta):
 			move_piece(Vector2i.RIGHT)
 			await get_tree().create_timer(0.1).timeout
 			right_pressed = false
+			audio_ins.move_sound()
+
+	
 
 	if not left_pressed and Input.is_action_pressed("ui_left"):
 		steps[0] += 20
@@ -130,6 +148,7 @@ func _process(delta):
 	if !can_move(Vector2i.DOWN):
 		await get_tree().create_timer(0.5).timeout
 		if !can_move(Vector2i.DOWN):
+			audio_ins.land_soft_sound()
 			land_piece()
 
 
@@ -152,6 +171,7 @@ func new_game():
 	ghost_piece_atlas = Vector2i(0, 1)
 	score = 0
 	create_piece()
+	
 	
 
 
@@ -239,6 +259,7 @@ func check_rows():
 				count+=1
 		if count == COL:
 			shift_row(row)
+			$Audio/Splash.play()
 			
 			line_clear += 1
 			if $Timer.wait_time >= 0.09:
@@ -247,7 +268,7 @@ func check_rows():
 		else:
 			row -= 1
 	score += calculate_line_clear()
-	$CanvasLayer/Score.text = "Score: %s" % [score]
+	$CanvasLayer/Score.text = "Score:\n    %s" % [  score]
 func calculate_line_clear():
 	var reward = 0
 
@@ -391,5 +412,4 @@ func stash_block():
 		clear_piece()
 
 		create_piece()
-
 

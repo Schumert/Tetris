@@ -1,2 +1,6 @@
-res://Main.gd
+res://audio.gd
 res://main.tscn
+res://default_bus_layout.tres
+res://Main.gd
+res://Audio.gd
+res://AudioPlayer.gd

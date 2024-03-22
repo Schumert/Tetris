@@ -1,87 +1,97 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1711068596
+::res://::1711082939
+default_bus_layout.tres::AudioBusLayout::8976271158371580064::1711079123::0::1::::<><>::
 icon.svg::CompressedTexture2D::1575636068426309231::1710618293::1710618305::1::::<><>::
-Main.gd::GDScript::-1::1711067993::0::1::::<>TileMap<>::
-main.tscn::PackedScene::1205514838517011082::1711068145::0::1::::<><>::uid://bialqrey8thef::::res://Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://balrih2bknub2::::res://Tetriminos/Board/Board.png<>uid://beaqyaqwomiah::::res://Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://dp0jgfwwga7cv::::res://Pato_Pack/Pato_Pack/Assets/assets_pato.png
-StoneWall_TXR.png::CompressedTexture2D::5949090485732435466::1711058779::1711058780::1::::<><>::
-—Pngtree—frame webcam overlay gaming black_6485949.png::CompressedTexture2D::9051785911677616052::1711058001::1711058021::1::::<><>::
+Main.gd::GDScript::-1::1711082937::0::1::::<>TileMap<>::
+main.tscn::PackedScene::1205514838517011082::1711082939::0::1::::<><>::uid://bialqrey8thef::::res://assets/Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://beaqyaqwomiah::::res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://dyn31bljs607g::::res://assets/no-headphones -64.png<>uid://dp0jgfwwga7cv::::res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png<>uid://bq77ktvwaprs3::::res://audio/splash.mp3<>uid://bir1cvspfcm3q::::res://audio/Korobeiniki.mp3<>res://AudioPlayer.gd<>uid://cngppkl4y8o21::::res://audio/chest_open.mp3<>uid://dx2couik0ikcx::::res://audio/grass (mp3cut.net).mp3
+AudioPlayer.gd::GDScript::-1::1711082882::0::1::::<>Node<>::
+::res://assets/::1711077969
+no-headphones -64.png::CompressedTexture2D::8872377785584265762::1711077960::1711077969::1::::<><>::
+no-headphones- 128.png::CompressedTexture2D::6819371512168376712::1711077938::1711077969::1::::<><>::
+no-headphones.png::CompressedTexture2D::2429896748152203398::1711077411::1711077455::1::::<><>::
+::res://assets/game-buttons-frames-with-green-borders-leaves-design-elements-assets-with-plants-use/::1711077459
+73Z_2108.w032.n003.44A.p1.44.jpg::CompressedTexture2D::6756492101771090429::1711054304::1711077459::1::::<><>::
+::res://assets/game-wooden-level-avatar-frames-ui-icons/::1711077459
+2210_w026_n002_2593b_p1_2593.jpg::CompressedTexture2D::693671910221592078::1711054170::1711077459::1::::<><>::
+::res://assets/Pato_Pack/::1711060858
+::res://assets/Pato_Pack/Pato_Pack/::1711060858
+::res://assets/Pato_Pack/Pato_Pack/Assets/::1711077455
+assets_pato.png::CompressedTexture2D::8264261614809693177::1711060858::1711077455::1::::<><>::
+::res://assets/Pato_Pack/Pato_Pack/Duck animations/::1711077455
+pato.png::CompressedTexture2D::5285280406424807972::1711060858::1711077455::1::::<><>::
+pato_attack.png::CompressedTexture2D::4496629077633412801::1711060858::1711077455::1::::<><>::
+::res://assets/Pato_Pack/Pato_Pack/Misc/::1711077455
+patoemotes.png::CompressedTexture2D::5476000196933590679::1711060858::1711077455::1::::<><>::
+thumbnail art.png::CompressedTexture2D::5434612979310169754::1711060858::1711077455::1::::<><>::
+::res://assets/Pato_Pack/Pato_Pack/Tileset/::1711077455
+tileset_pato8.png::CompressedTexture2D::2245622894688880190::1711060858::1711077455::1::::<><>::
+::res://assets/Pato_Pack/Pato_Pack/Water animation/::1711077455
+AnimatedWaterSprite.png::CompressedTexture2D::2668190414918851111::1711065155::1711077455::1::::<><>::
+water_pato1.png::CompressedTexture2D::8936170069393729627::1711060858::1711077455::1::::<><>::
+water_pato2.png::CompressedTexture2D::3157651372876607611::1711060858::1711077455::1::::<><>::
+water_pato3.png::CompressedTexture2D::7060623517085540129::1711060858::1711077455::1::::<><>::
+water_pato4.png::CompressedTexture2D::8922311057329302881::1711060858::1711077455::1::::<><>::
+water_pato5.png::CompressedTexture2D::7273619439782500402::1711060858::1711077455::1::::<><>::
+water_pato6.png::CompressedTexture2D::5111564164107315877::1711060858::1711077455::1::::<><>::
+water_pato7.png::CompressedTexture2D::4395536204040430062::1711060858::1711077455::1::::<><>::
+water_pato8.png::CompressedTexture2D::7120120172532224643::1711060858::1711077455::1::::<><>::
+::res://assets/Tetriminos/::1711077458
+base.png::CompressedTexture2D::1337607804263164739::1710621787::1711077458::1::::<><>::
+README.txt::TextFile::-1::1710621787::0::1::::<><>::
+Tilemap.png::CompressedTexture2D::7222362994245840011::1710621788::1711077457::1::::<><>::
+::res://assets/Tetriminos/Board/::1711077455
+BG_1.png::CompressedTexture2D::2948628792631743953::1710621787::1711077455::1::::<><>::
+BG_2.png::CompressedTexture2D::8142934913761011342::1710621787::1711077455::1::::<><>::
+Board.png::CompressedTexture2D::2410175723648530805::1710621787::1711077455::1::::<><>::
+Border.png::CompressedTexture2D::1276444465694754893::1710621787::1711077455::1::::<><>::
+::res://assets/Tetriminos/Board/psd/::1710621787
+::res://assets/Tetriminos/Ghost/::1711077455
+I.png::CompressedTexture2D::4884754181389696322::1710621787::1711077455::1::::<><>::
+J.png::CompressedTexture2D::6004846746731547864::1710621787::1711077455::1::::<><>::
+L.png::CompressedTexture2D::6511216931679459154::1710621787::1711077455::1::::<><>::
+O.png::CompressedTexture2D::3922944709451372230::1710621787::1711077455::1::::<><>::
+S.png::CompressedTexture2D::7328549202773094306::1710621787::1711077455::1::::<><>::
+Single.png::CompressedTexture2D::1203538890462011063::1710621787::1711077455::1::::<><>::
+T.png::CompressedTexture2D::8983208548043047166::1710621787::1711077455::1::::<><>::
+Z.png::CompressedTexture2D::5147351996566211869::1710621787::1711077455::1::::<><>::
+::res://assets/Tetriminos/Ghost/psd/::1710621787
+::res://assets/Tetriminos/Sample/::1711077455
+Sample_1.png::CompressedTexture2D::598430846019864929::1710621787::1711077455::1::::<><>::
+Sample_2.png::CompressedTexture2D::750940695944711265::1710621787::1711077455::1::::<><>::
+::res://assets/Tetriminos/Shape Blocks/::1711077455
+I.png::CompressedTexture2D::3862640191663892734::1710621787::1711077455::1::::<><>::
+J.png::CompressedTexture2D::1617405808381235473::1710621787::1711077455::1::::<><>::
+L.png::CompressedTexture2D::7694391174291231455::1710621787::1711077455::1::::<><>::
+O.png::CompressedTexture2D::4289869622104831245::1710621787::1711077455::1::::<><>::
+S.png::CompressedTexture2D::8546667736589899754::1710621787::1711077455::1::::<><>::
+T.png::CompressedTexture2D::5691719834276202945::1710621787::1711077455::1::::<><>::
+Z.png::CompressedTexture2D::4502757242641996810::1710621787::1711077455::1::::<><>::
+::res://assets/Tetriminos/Shape Blocks/psd/::1710621787
+::res://assets/Tetriminos/Single Blocks/::1711077455
+Blue.png::CompressedTexture2D::7617508128157750285::1710621787::1711077455::1::::<><>::
+Green.png::CompressedTexture2D::4091771390107991574::1710621787::1711077455::1::::<><>::
+LightBlue.png::CompressedTexture2D::1452776372162697590::1710621787::1711077455::1::::<><>::
+Orange.png::CompressedTexture2D::1372098661739585718::1710621787::1711077455::1::::<><>::
+Purple.png::CompressedTexture2D::2990400330917651645::1710621788::1711077455::1::::<><>::
+Red.png::CompressedTexture2D::5415573019494006757::1710621788::1711077455::1::::<><>::
+Yellow.png::CompressedTexture2D::432167347357733343::1710621788::1711077455::1::::<><>::
+::res://assets/Tetriminos/Single Blocks/PSD/::1710621788
+::res://assets/Tetriminos/Title/::1711077455
+Title.png::CompressedTexture2D::3156890663898033959::1710621788::1711077455::1::::<><>::
+Title_No_BG.png::CompressedTexture2D::2569578959667326506::1710621788::1711077455::1::::<><>::
+::res://assets/Tetriminos/Title/psd/::1710621788
+::res://assets/Tetris Block Assets/::1710621631
+::res://assets/Tetris Block Assets/Tetris Block Assets/::1711077455
+tetris tiles.png::CompressedTexture2D::1898109170468368339::1710621781::1711077455::1::::<><>::
+::res://audio/::1711083030
+chest_open.mp3::AudioStreamMP3::5698620686582415696::1711080340::1711080380::1::::<><>::
+grass (mp3cut.net).mp3::AudioStreamMP3::8829491152527390355::1711082503::1711082513::1::::<><>::
+Korobeiniki.mp3::AudioStreamMP3::2984609199501253176::1711075174::1711075221::1::::<><>::
+land_soft.wav::AudioStreamWAV::8748141079605644239::1711083022::1711083032::1::::<><>::
+splash.mp3::AudioStreamMP3::3577464103123842492::1711075601::1711075792::1::::<><>::
 ::res://font/::1710887813
 license.txt::TextFile::-1::1710887804::0::1::::<><>::
 yoster.ttf::FontFile::1094207186506321486::1710887804::1710887813::1::::<><>::
-::res://game-buttons-frames-with-green-borders-leaves-design-elements-assets-with-plants-use/::1711054313
-73Z_2108.w032.n003.44A.p1.44.jpg::CompressedTexture2D::6756492101771090429::1711054304::1711054313::1::::<><>::
-::res://game-wooden-level-avatar-frames-ui-icons/::1711058020
-2210_w026_n002_2593b_p1_2593.jpg::CompressedTexture2D::693671910221592078::1711054170::1711054173::1::::<><>::
-::res://Pato_Pack/::1711060858
-::res://Pato_Pack/Pato_Pack/::1711060858
-::res://Pato_Pack/Pato_Pack/Assets/::1711060858
-assets_pato.png::CompressedTexture2D::8264261614809693177::1711060858::1711060858::1::::<><>::
-::res://Pato_Pack/Pato_Pack/Duck animations/::1711060858
-pato.png::CompressedTexture2D::5285280406424807972::1711060858::1711060858::1::::<><>::
-pato_attack.png::CompressedTexture2D::4496629077633412801::1711060858::1711060858::1::::<><>::
-::res://Pato_Pack/Pato_Pack/Misc/::1711060858
-patoemotes.png::CompressedTexture2D::5476000196933590679::1711060858::1711060858::1::::<><>::
-thumbnail art.png::CompressedTexture2D::5434612979310169754::1711060858::1711060858::1::::<><>::
-::res://Pato_Pack/Pato_Pack/Tileset/::1711060858
-tileset_pato8.png::CompressedTexture2D::2245622894688880190::1711060858::1711060858::1::::<><>::
-::res://Pato_Pack/Pato_Pack/Water animation/::1711065155
-AnimatedWaterSprite.png::CompressedTexture2D::2668190414918851111::1711065155::1711065155::1::::<><>::
-water_pato1.png::CompressedTexture2D::8936170069393729627::1711060858::1711060858::1::::<><>::
-water_pato2.png::CompressedTexture2D::3157651372876607611::1711060858::1711060858::1::::<><>::
-water_pato3.png::CompressedTexture2D::7060623517085540129::1711060858::1711060858::1::::<><>::
-water_pato4.png::CompressedTexture2D::8922311057329302881::1711060858::1711060858::1::::<><>::
-water_pato5.png::CompressedTexture2D::7273619439782500402::1711060858::1711060858::1::::<><>::
-water_pato6.png::CompressedTexture2D::5111564164107315877::1711060858::1711060858::1::::<><>::
-water_pato7.png::CompressedTexture2D::4395536204040430062::1711060858::1711060858::1::::<><>::
-water_pato8.png::CompressedTexture2D::7120120172532224643::1711060858::1711060858::1::::<><>::
 ::res://return-of-ganon/::1710887954
 license.txt::TextFile::-1::1710887954::0::1::::<><>::
 retganon.ttf::FontFile::3688373670306211311::1710887954::1710887954::1::::<><>::
-::res://Tetriminos/::1710621791
-base.png::CompressedTexture2D::1337607804263164739::1710621787::1710621791::1::::<><>::
-README.txt::TextFile::-1::1710621787::0::1::::<><>::
-Tilemap.png::CompressedTexture2D::7222362994245840011::1710621788::1710621789::1::::<><>::
-::res://Tetriminos/Board/::1710887751
-BG_1.png::CompressedTexture2D::2948628792631743953::1710621787::1710621788::1::::<><>::
-BG_2.png::CompressedTexture2D::8142934913761011342::1710621787::1710621788::1::::<><>::
-Board.png::CompressedTexture2D::2410175723648530805::1710621787::1710621788::1::::<><>::
-Border.png::CompressedTexture2D::1276444465694754893::1710621787::1710621788::1::::<><>::
-::res://Tetriminos/Board/psd/::1710621787
-::res://Tetriminos/Ghost/::1710621788
-I.png::CompressedTexture2D::4884754181389696322::1710621787::1710621788::1::::<><>::
-J.png::CompressedTexture2D::6004846746731547864::1710621787::1710621788::1::::<><>::
-L.png::CompressedTexture2D::6511216931679459154::1710621787::1710621788::1::::<><>::
-O.png::CompressedTexture2D::3922944709451372230::1710621787::1710621788::1::::<><>::
-S.png::CompressedTexture2D::7328549202773094306::1710621787::1710621788::1::::<><>::
-Single.png::CompressedTexture2D::1203538890462011063::1710621787::1710621788::1::::<><>::
-T.png::CompressedTexture2D::8983208548043047166::1710621787::1710621788::1::::<><>::
-Z.png::CompressedTexture2D::5147351996566211869::1710621787::1710621788::1::::<><>::
-::res://Tetriminos/Ghost/psd/::1710621787
-::res://Tetriminos/Sample/::1710621788
-Sample_1.png::CompressedTexture2D::598430846019864929::1710621787::1710621788::1::::<><>::
-Sample_2.png::CompressedTexture2D::750940695944711265::1710621787::1710621788::1::::<><>::
-::res://Tetriminos/Shape Blocks/::1710621788
-I.png::CompressedTexture2D::3862640191663892734::1710621787::1710621788::1::::<><>::
-J.png::CompressedTexture2D::1617405808381235473::1710621787::1710621788::1::::<><>::
-L.png::CompressedTexture2D::7694391174291231455::1710621787::1710621788::1::::<><>::
-O.png::CompressedTexture2D::4289869622104831245::1710621787::1710621788::1::::<><>::
-S.png::CompressedTexture2D::8546667736589899754::1710621787::1710621788::1::::<><>::
-T.png::CompressedTexture2D::5691719834276202945::1710621787::1710621788::1::::<><>::
-Z.png::CompressedTexture2D::4502757242641996810::1710621787::1710621788::1::::<><>::
-::res://Tetriminos/Shape Blocks/psd/::1710621787
-::res://Tetriminos/Single Blocks/::1710621788
-Blue.png::CompressedTexture2D::7617508128157750285::1710621787::1710621788::1::::<><>::
-Green.png::CompressedTexture2D::4091771390107991574::1710621787::1710621788::1::::<><>::
-LightBlue.png::CompressedTexture2D::1452776372162697590::1710621787::1710621788::1::::<><>::
-Orange.png::CompressedTexture2D::1372098661739585718::1710621787::1710621788::1::::<><>::
-Purple.png::CompressedTexture2D::2990400330917651645::1710621788::1710621788::1::::<><>::
-Red.png::CompressedTexture2D::5415573019494006757::1710621788::1710621788::1::::<><>::
-Yellow.png::CompressedTexture2D::432167347357733343::1710621788::1710621788::1::::<><>::
-::res://Tetriminos/Single Blocks/PSD/::1710621788
-::res://Tetriminos/Title/::1710621788
-Title.png::CompressedTexture2D::3156890663898033959::1710621788::1710621788::1::::<><>::
-Title_No_BG.png::CompressedTexture2D::2569578959667326506::1710621788::1710621788::1::::<><>::
-::res://Tetriminos/Title/psd/::1710621788
-::res://Tetris Block Assets/::1710621631
-::res://Tetris Block Assets/Tetris Block Assets/::1710621781
-tetris tiles.png::CompressedTexture2D::1898109170468368339::1710621781::1710621631::1::::<><>::
