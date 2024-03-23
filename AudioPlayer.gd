@@ -44,3 +44,5 @@ func land_soft_sound():
 	$LandSoft.play()
 func cant_rotate_sound():
 	$CantRotate.play()
+func game_over_sound():
+	$GameOver.play()

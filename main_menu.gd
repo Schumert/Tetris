@@ -15,3 +15,9 @@ func hide_slowly():
 	var text = $Label
 
 	tween.tween_property(text, "modulate",Color.TRANSPARENT, 1)
+
+func show_slowly():
+	var tween = create_tween()
+	var text = $Label
+
+	tween.tween_property(text, "modulate",Color.ALICE_BLUE, 1)

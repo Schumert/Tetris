@@ -1,12 +1,14 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1711207381
+::res://::1711223171
 AudioPlayer.gd::GDScript::-1::1711162307::0::1::::<>Node<>::
 Camera.gd::GDScript::-1::1711159452::0::1::::<>Camera2D<>::
-default_bus_layout.tres::AudioBusLayout::8976271158371580064::1711163482::0::1::::<><>::
+default_bus_layout.tres::AudioBusLayout::8976271158371580064::1711222588::0::1::::<><>::
 global.gd::GDScript::-1::1711156538::0::1::::<>Node<>::
 icon.svg::CompressedTexture2D::1575636068426309231::1710618293::1710618305::1::::<><>::
-Main.gd::GDScript::-1::1711205562::0::1::::<>TileMap<>::
-main.tscn::PackedScene::1205514838517011082::1711206632::0::1::::<><>::uid://bialqrey8thef::::res://assets/Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://beaqyaqwomiah::::res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://dyn31bljs607g::::res://assets/no-headphones -64.png<>uid://dp0jgfwwga7cv::::res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png<>uid://pubox73dflnq::::res://font/yoster.ttf<>uid://bq77ktvwaprs3::::res://audio/splash.mp3<>uid://bir1cvspfcm3q::::res://audio/Korobeiniki.mp3<>res://AudioPlayer.gd<>uid://cngppkl4y8o21::::res://audio/chest_open.mp3<>uid://dx2couik0ikcx::::res://audio/grass (mp3cut.net).mp3<>uid://dwvwut6ci7dyt::::res://audio/land_soft.wav<>uid://l0qmuejpfb0p::::res://audio/Error  Sound Effects (No Copyright).mp3<>res://Camera.gd
+Main.gd::GDScript::-1::1711223170::0::1::::<>TileMap<>::
+main.tscn::PackedScene::1205514838517011082::1711223171::0::1::::<><>::uid://bialqrey8thef::::res://assets/Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://beaqyaqwomiah::::res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://dyn31bljs607g::::res://assets/no-headphones -64.png<>uid://dp0jgfwwga7cv::::res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png<>uid://pubox73dflnq::::res://font/yoster.ttf<>uid://bq77ktvwaprs3::::res://audio/splash.mp3<>uid://bir1cvspfcm3q::::res://audio/Korobeiniki.mp3<>res://AudioPlayer.gd<>uid://cngppkl4y8o21::::res://audio/chest_open.mp3<>uid://dx2couik0ikcx::::res://audio/grass (mp3cut.net).mp3<>uid://dwvwut6ci7dyt::::res://audio/land_soft.wav<>uid://l0qmuejpfb0p::::res://audio/Error  Sound Effects (No Copyright).mp3<>res://Camera.gd<>uid://c2h155ybr53c8::::res://MainMenu.tscn<>res://main_menu.gd
+MainMenu.tscn::PackedScene::6684024618365744885::1711223171::0::1::::<><>::uid://pubox73dflnq::::res://font/yoster.ttf
+main_menu.gd::GDScript::-1::1711213134::0::1::::<>CanvasLayer<>::
 ::res://assets/::1711162258
 no-headphones -64.png::CompressedTexture2D::8872377785584265762::1711077960::1711077969::1::::<><>::
 no-headphones- 128.png::CompressedTexture2D::6819371512168376712::1711077938::1711077969::1::::<><>::
@@ -85,9 +87,10 @@ Title_No_BG.png::CompressedTexture2D::2569578959667326506::1710621788::171107745
 ::res://assets/Tetris Block Assets/::1710621631
 ::res://assets/Tetris Block Assets/Tetris Block Assets/::1711077455
 tetris tiles.png::CompressedTexture2D::1898109170468368339::1710621781::1711077455::1::::<><>::
-::res://audio/::1711162260
+::res://audio/::1711223370
 chest_open.mp3::AudioStreamMP3::5698620686582415696::1711080340::1711080380::1::::<><>::
 Error  Sound Effects (No Copyright).mp3::AudioStreamMP3::824680682356355741::1711162242::1711162260::1::::<><>::
+Game Over Sound Effect.mp3::AudioStreamMP3::4512924843257023572::1711223362::1711223372::1::::<><>::
 grass (mp3cut.net).mp3::AudioStreamMP3::8829491152527390355::1711082503::1711082513::1::::<><>::
 Korobeiniki.mp3::AudioStreamMP3::2984609199501253176::1711075174::1711075221::1::::<><>::
 land_soft.wav::AudioStreamWAV::8748141079605644239::1711083022::1711083032::1::::<><>::

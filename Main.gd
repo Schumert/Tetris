@@ -61,6 +61,7 @@ var score : int
 var highest_score: int
 var game_running : bool
 var main_menu_running: bool
+var is_pause_avail : bool
 
 var piece_type
 var next_piece_type
@@ -96,6 +97,8 @@ const SAVEFILE = "user://tetris_save.dat"
 
 
 func _ready():
+	main_menu_running = true
+	is_pause_avail = false
 	load_score()
 	
 	audio_ins = get_node("Audio")
@@ -103,9 +106,11 @@ func _input(event):
 	if event.is_action_pressed("restart"):
 			save_score()
 			get_tree().reload_current_scene()
+	if event.is_action_pressed("pause") and is_pause_avail:
+			pause_game()
 
 func _process(delta):
-	if game_running and not main_menu_running:
+	if game_running:
 		if Input.is_action_just_pressed("ui_up"):
 			rotate_piece()
 			audio_ins.rotate_sound()
@@ -152,7 +157,7 @@ func _process(delta):
 				move_ghost_piece_hor(Vector2i.DOWN)
 				steps[ii] = 0
 		move_ghost_piece_down()
-	else:
+	elif main_menu_running:
 		if Input.is_action_just_pressed("land_instant"):
 			start_game()
 			main_menu_running = false
@@ -164,6 +169,7 @@ func _process(delta):
 
 
 func new_game():
+	
 	game_running = true
 	score = 0
 	speed = 1
@@ -171,28 +177,46 @@ func new_game():
 
 	clean_panel()
 	clear_piece()
+	clean_stash_panel()
 
+	stash_piece_type = null
 	piece_type = pick_piece()
 	next_piece_type = pick_piece()
+	#stash_piece_type = -1
 	piece_atlas = Vector2i(shapes_full.find(piece_type) , 0)
 	next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
 	ghost_piece_atlas = Vector2i(0, 1)
-	
 	load_score()
 	
 	create_piece()
+	$Audio/Korobeiniki.play()
+	is_pause_avail = true
 	
 
 
 func start_game():
 	var main_menu := $MainMenu
+	$Audio/Splash.play()
 	main_menu.hide_slowly()
+	await get_tree().create_timer(1).timeout
+
+	#cleaning the grass for blocks
 	for ii in range(ROW):
 		await get_tree().create_timer(0.05).timeout
+		$Audio/LandSoft.play()
 		for jj in range(COL):
 			erase_cell(board_layer, Vector2i(jj + 1, ii + 1)) 
 		
 	new_game()
+
+func pause_game():
+	if game_running:
+		game_running = false
+		$Audio/Korobeiniki.stop()
+		
+	else:
+		game_running = true
+		$Audio/Korobeiniki.play()
 	
 func land_instant():
 	while(can_move(Vector2i.DOWN)):
@@ -391,8 +415,14 @@ func check_game_over():
 		if not is_free(ii + cur_pos + Vector2i.DOWN):
 			game_running = false
 			set_board_layer()
+
+			clean_panel()
+			clean_stash_panel()
+
 			save_score()
-			print("game over")
+			$Audio/Korobeiniki.stop()
+			$Audio/GameOver.play()
+			show_you_died()
 			
 
 func clear_board():
@@ -420,6 +450,11 @@ func draw_piece_ghost(piece, pos, atlas):
 func clean_panel():
 	for ii in range(14, 19):
 				for jj in range(3, 7):
+					erase_cell(active_layer, Vector2i(ii, jj))
+
+func clean_stash_panel():
+	for ii in range(10, 20):
+				for jj in range(10, 20):
 					erase_cell(active_layer, Vector2i(ii, jj))
 
 func change_block():
@@ -462,9 +497,7 @@ func stash_block():
 		stash_piece_atlas = temp_piece_atlas
 
 
-		for ii in range(10, 20):
-				for jj in range(10, 20):
-					erase_cell(active_layer, Vector2i(ii, jj))
+		clean_stash_panel()
 		draw_piece(stash_piece_type[0], Vector2i(15, 15), stash_piece_atlas)
 
 		is_block_change_used = true
@@ -476,19 +509,19 @@ func stash_block():
 
 
 func show_gained_point(point_msg):
-	var obj = $CanvasLayer/PointGained
-	obj.text = point_msg
-	obj.scale = Vector2(0.2, 0.2)
-	obj.position.y = 384
-	obj.visible = true
+	var msg = $CanvasLayer/PointGained
+	msg.text = point_msg
+	msg.scale = Vector2(0.2, 0.2)
+	msg.position.y = 384
+	msg.visible = true
 	var tween = create_tween()
-	tween.tween_property(obj, 'position', Vector2(obj.position.x, 288), 0.3)
-	tween.parallel().tween_property(obj, 'scale', Vector2(1, 1), 0.3)
-	tween.tween_property(obj, 'scale', Vector2(0.2, 0.2), 0.3)
+	tween.tween_property(msg, 'position', Vector2(msg.position.x, 288), 0.3)
+	tween.parallel().tween_property(msg, 'scale', Vector2(1, 1), 0.3)
+	tween.tween_property(msg, 'scale', Vector2(0.2, 0.2), 0.3)
 	await tween.finished
 	#await get_tree().create_timer(0.1).timeout
-	obj.visible = false
-	obj.scale = Vector2(0.2, 0.2)
+	msg.visible = false
+	msg.scale = Vector2(0.2, 0.2)
 
 func save_score():
 	if score > highest_score:
@@ -500,5 +533,38 @@ func load_score():
 	if FileAccess.file_exists(SAVEFILE):
 		highest_score = file.get_32()
 		$CanvasLayer/Record.text = "Record: " + str(highest_score)
+
+
+func show_you_died():
+	var black_template = $CanvasLayer/Panel
+	var you_died = $CanvasLayer/Panel/YouDied
+	black_template.visible = true
+	var tween = create_tween()
+
+	tween.tween_property(black_template, "modulate", Color.ALICE_BLUE,0.5)
+	tween.tween_property(you_died, "modulate",Color.ALICE_BLUE, 1)
+	tween.tween_interval(3.5)
+	tween.tween_property(black_template, "modulate", Color.TRANSPARENT,1)
+	tween.parallel().tween_property(you_died, "modulate",Color.TRANSPARENT, 1)
+	await tween.finished
+
+	for ii in range(ROW):
+		await get_tree().create_timer(0.05).timeout
+		$Audio/LandSoft.play()
+		for jj in range(COL):
+			set_cell(board_layer, Vector2i(jj + 1, ii + 1), 7, Vector2i(1, 1)) 
+
+	await get_tree().create_timer(1).timeout
+
+	var main_menu := $MainMenu
+	main_menu.show_slowly()
+
+
+	#part that main_menu become active
+	main_menu_running = true
+	#clear ghosts
+	for ii in range(ROW):
+		for jj in range(COL):
+			erase_cell(ghost_layer, Vector2i(jj + 1, ii + 1)) 
 
 
