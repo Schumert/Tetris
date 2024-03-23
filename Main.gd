@@ -54,7 +54,7 @@ const start_pos := Vector2i(5, 1)
 var cur_pos : Vector2i
 var ghost_cur_pos : Vector2i
 var speed = 1
-const ACCEL : float = 0.15
+const ACCEL : float = 0.05
 
 var line_clear : int
 var score : int
@@ -88,6 +88,8 @@ var right_pressed = false
 
 var audio_ins
 
+
+
 func _ready(): 
 	new_game()
 	audio_ins = get_node("Audio")
@@ -95,61 +97,62 @@ func _ready():
 	
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_up"):
-		rotate_piece()
-		audio_ins.rotate_sound()
-	if Input.is_action_just_pressed("change_block"):
-		stash_block()
-		$Audio/Stash.play()
-	if Input.is_action_just_pressed("land_instant"):
-		land_instant()
-		audio_ins.land_instant_sound()
-	
-	if Input.is_action_just_pressed("restart"):
-		get_tree().reload_current_scene()
+	if game_running:
+		if Input.is_action_just_pressed("ui_up"):
+			rotate_piece()
+			audio_ins.rotate_sound()
+		if Input.is_action_just_pressed("change_block"):
+			stash_block()
+			$Audio/Stash.play()
+		if Input.is_action_just_pressed("land_instant"):
+			land_instant()
+			audio_ins.land_instant_sound()
+		
+		if Input.is_action_just_pressed("restart"):
+			get_tree().reload_current_scene()
 
-	#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
-	if Input.is_action_just_pressed("ui_left"):
-		if not left_pressed:  
-			left_pressed = true
-			move_piece(Vector2i.LEFT)
-			await get_tree().create_timer(0.1).timeout
-			left_pressed = false
-			audio_ins.move_sound()
+		#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
+		if Input.is_action_just_pressed("ui_left"):
+			if not left_pressed:  
+				left_pressed = true
+				move_piece(Vector2i.LEFT)
+				await get_tree().create_timer(0.1).timeout
+				left_pressed = false
+				audio_ins.move_sound()
 
-	if Input.is_action_just_pressed("ui_right"):
-		if not right_pressed:  
-			right_pressed = true
-			move_piece(Vector2i.RIGHT)
-			await get_tree().create_timer(0.1).timeout
-			right_pressed = false
-			audio_ins.move_sound()
+		if Input.is_action_just_pressed("ui_right"):
+			if not right_pressed:  
+				right_pressed = true
+				move_piece(Vector2i.RIGHT)
+				await get_tree().create_timer(0.1).timeout
+				right_pressed = false
+				audio_ins.move_sound()
 
-	
+		
 
-	if not left_pressed and Input.is_action_pressed("ui_left"):
-		steps[0] += 20
-	if not right_pressed and Input.is_action_pressed("ui_right"):
-		steps[1] += 20
-	if Input.is_action_pressed("ui_down"):
-		steps[2] += 20
+		if not left_pressed and Input.is_action_pressed("ui_left"):
+			steps[0] += 20
+		if not right_pressed and Input.is_action_pressed("ui_right"):
+			steps[1] += 20
+		if Input.is_action_pressed("ui_down"):
+			steps[2] += 20
 
-	steps[2] += speed
-	#move the piece
-	for ii in range(steps.size()):
-		if steps[ii] >= steps_req:
-			move_piece(directions[ii])
-			move_ghost_piece_hor(Vector2i.DOWN)
-			steps[ii] = 0
-	move_ghost_piece_down()
+		steps[2] += speed
+		#move the piece
+		for ii in range(steps.size()):
+			if steps[ii] >= steps_req:
+				move_piece(directions[ii])
+				move_ghost_piece_hor(Vector2i.DOWN)
+				steps[ii] = 0
+		move_ghost_piece_down()
 
-	
+		
 
-	if !can_move(Vector2i.DOWN):
-		await get_tree().create_timer(0.5).timeout
 		if !can_move(Vector2i.DOWN):
-			audio_ins.land_soft_sound()
-			land_piece()
+			await get_tree().create_timer(0.5).timeout
+			if !can_move(Vector2i.DOWN):
+				audio_ins.land_soft_sound()
+				land_piece()
 
 
 
@@ -164,12 +167,21 @@ func land_instant():
 
 
 func new_game():
+	game_running = true
+	score = 0
+	speed = 1
+	steps = [0, 0, 0]
+
+	clear_board()
+	clean_panel()
+	clear_piece()
+
 	piece_type = pick_piece()
 	next_piece_type = pick_piece()
 	piece_atlas = Vector2i(shapes_full.find(piece_type) , 0)
 	next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
 	ghost_piece_atlas = Vector2i(0, 1)
-	score = 0
+	
 	create_piece()
 	
 	
@@ -187,6 +199,7 @@ func pick_piece():
 	return piece
 
 func create_piece():
+	
 	steps = [0, 0 , 0]
 	cur_pos = start_pos
 	ghost_cur_pos = cur_pos
@@ -237,6 +250,7 @@ func move_piece(dir):
 
 func land_piece():
 		set_board_layer()
+		#show_gained_point("TETRIS!\n 2000")
 		check_rows()
 		rotation_index = 0
 		piece_type = next_piece_type
@@ -246,6 +260,8 @@ func land_piece():
 		is_block_change_used = false
 		clean_panel()
 		create_piece()
+		check_game_over()
+		
 
 
 
@@ -260,7 +276,6 @@ func check_rows():
 		if count == COL:
 			shift_row(row)
 			$Audio/Splash.play()
-			
 			line_clear += 1
 			speed += ACCEL
 			
@@ -273,12 +288,20 @@ func calculate_line_clear():
 
 	if line_clear == 1:
 		reward = 100
+		Global.camera.shake(0.2,3)
+		show_gained_point("SINGLE\n 100")
 	elif line_clear == 2:
 		reward = 400
+		Global.camera.shake(0.2,5)
+		show_gained_point("DOUBLE\n 400")
 	elif line_clear == 3:
 		reward = 900
+		Global.camera.shake(0.2,7)
+		show_gained_point("TRIPLE\n 900")
 	elif line_clear == 4:
+		Global.camera.shake(0.2,10)
 		reward = 2000
+		show_gained_point("TETRIS\n 2000")
 	
 	line_clear = 0
 	return reward
@@ -319,11 +342,13 @@ func rotate_piece():
 		rotation_index = (rotation_index + 1) % 4
 		active_piece = piece_type[rotation_index]
 		ghost_piece = active_piece
+	else:
+		$Audio/CantRotate.play()
 		
 
-		draw_piece(active_piece, cur_pos, piece_atlas)
-		print("Döndü %s" % str(rotation_index))
-		draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
+	draw_piece(active_piece, cur_pos, piece_atlas)
+	print("Döndü %s" % str(rotation_index))
+	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
 		
 		
 
@@ -334,6 +359,19 @@ func can_rotate():
 		if not is_free(cur_pos + ii):
 			cr = false
 	return cr
+
+func check_game_over():
+	for ii in active_piece:
+		if not is_free(ii + cur_pos + Vector2i.DOWN):
+			game_running = false
+			set_board_layer()
+			print("game over")
+			
+
+func clear_board():
+	for ii in range(ROW):
+		for jj in range(COL):
+			erase_cell(board_layer, Vector2i(jj + 1, ii + 1)) 
 
 func clear_piece():
 	for ii in active_piece:
@@ -402,9 +440,6 @@ func stash_block():
 					erase_cell(active_layer, Vector2i(ii, jj))
 		draw_piece(stash_piece_type[0], Vector2i(15, 15), stash_piece_atlas)
 
-		
-		
-
 		is_block_change_used = true
 
 		clean_panel()
@@ -412,3 +447,18 @@ func stash_block():
 
 		create_piece()
 
+
+func show_gained_point(point_msg):
+	var obj = $CanvasLayer/PointGained
+	obj.text = point_msg
+	obj.scale = Vector2(0.2, 0.2)
+	obj.position.y = 384
+	obj.visible = true
+	var tween = create_tween()
+	tween.tween_property(obj, 'position', Vector2(obj.position.x, 288), 0.3)
+	tween.parallel().tween_property(obj, 'scale', Vector2(1, 1), 0.3)
+	tween.tween_property(obj, 'scale', Vector2(0.2, 0.2), 0.3)
+	await tween.finished
+	#await get_tree().create_timer(0.1).timeout
+	obj.visible = false
+	obj.scale = Vector2(0.2, 0.2)

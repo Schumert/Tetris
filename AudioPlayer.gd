@@ -42,3 +42,5 @@ func land_instant_sound():
 	$LandInstant.play()
 func land_soft_sound():
 	$LandSoft.play()
+func cant_rotate_sound():
+	$CantRotate.play()

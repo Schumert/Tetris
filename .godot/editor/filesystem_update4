@@ -1,6 +1,6 @@
-res://audio.gd
-res://main.tscn
-res://default_bus_layout.tres
 res://Main.gd
-res://Audio.gd
+res://main.tscn
+res://Camera.gd
+res://global.gd
 res://AudioPlayer.gd
+res://default_bus_layout.tres

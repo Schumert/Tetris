@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://rf7whf3esicw"]
+[gd_scene load_steps=25 format=3 uid="uid://rf7whf3esicw"]
 
 [ext_resource type="Texture2D" uid="uid://bialqrey8thef" path="res://assets/Tetriminos/Board/BG_1.png" id="1_m252b"]
 [ext_resource type="Script" path="res://Main.gd" id="1_pkyhh"]
@@ -15,6 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://cngppkl4y8o21" path="res://audio/chest_open.mp3" id="12_aolq4"]
 [ext_resource type="AudioStream" uid="uid://dx2couik0ikcx" path="res://audio/grass (mp3cut.net).mp3" id="12_fqla3"]
 [ext_resource type="AudioStream" uid="uid://dwvwut6ci7dyt" path="res://audio/land_soft.wav" id="13_gield"]
+[ext_resource type="AudioStream" uid="uid://l0qmuejpfb0p" path="res://audio/Error  Sound Effects (No Copyright).mp3" id="16_lywv7"]
+[ext_resource type="Script" path="res://Camera.gd" id="16_wuwll"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dur1s"]
 texture = ExtResource("1_m252b")
@@ -168,16 +170,6 @@ layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
 script = ExtResource("1_pkyhh")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.1
-
-[node name="Board" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(1, 1, 1, 0.615686)
-show_behind_parent = true
-position = Vector2(192, 351)
-scale = Vector2(0.5, 0.5)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MuteBackground" type="Button" parent="CanvasLayer"]
@@ -241,6 +233,28 @@ theme_override_font_sizes/font_size = 50
 text = "S T A S H"
 horizontal_alignment = 1
 
+[node name="PointGained" type="Label" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+pivot_offset = Vector2(127.16, 56.105)
+theme_override_fonts/font = ExtResource("4_mqrdu")
+theme_override_font_sizes/font_size = 60
+text = "SINGLE
+100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Audio" type="Node" parent="." node_paths=PackedStringArray("button", "button2")]
 script = ExtResource("9_oqbgk")
 button = NodePath("../CanvasLayer/MuteBackground")
@@ -281,6 +295,18 @@ stream = ExtResource("12_aolq4")
 volume_db = -10.0
 bus = &"FX"
 
-[connection signal="timeout" from="Timer" to="." method="on_time_out"]
+[node name="CantRotate" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("16_lywv7")
+volume_db = -10.0
+bus = &"FX"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(192, 351)
+script = ExtResource("16_wuwll")
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+one_shot = true
+
 [connection signal="pressed" from="CanvasLayer/MuteBackground" to="Audio" method="mute_play_background"]
 [connection signal="pressed" from="CanvasLayer/MuteFx" to="Audio" method="mute_fx"]
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
