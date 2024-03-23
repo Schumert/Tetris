@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2h155ybr53c8"]
+
+[ext_resource type="FontFile" uid="uid://pubox73dflnq" path="res://font/yoster.ttf" id="1_751wt"]
+
+[node name="MainMenu" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 288.0
+offset_right = 772.0
+offset_bottom = 342.0
+theme_override_fonts/font = ExtResource("1_751wt")
+theme_override_font_sizes/font_size = 30
+text = "Press Space To Start"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -58,6 +58,7 @@ const ACCEL : float = 0.05
 
 var line_clear : int
 var score : int
+var highest_score: int
 var game_running : bool
 
 var piece_type
@@ -89,13 +90,18 @@ var right_pressed = false
 var audio_ins
 
 
+const SAVEFILE = "user://tetris_save.dat"
 
-func _ready(): 
+
+
+func _ready():
+	load_score()
 	new_game()
 	audio_ins = get_node("Audio")
 	print("Başlangıç rotation indexi" + str(rotation_index))
 func _input(event):
 	if event.is_action_pressed("restart"):
+			save_score()
 			get_tree().reload_current_scene()
 
 func _process(delta):
@@ -172,6 +178,8 @@ func new_game():
 	piece_atlas = Vector2i(shapes_full.find(piece_type) , 0)
 	next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
 	ghost_piece_atlas = Vector2i(0, 1)
+	
+	load_score()
 	
 	create_piece()
 	
@@ -251,6 +259,8 @@ func land_piece():
 		set_board_layer()
 		#show_gained_point("TETRIS!\n 2000")
 		check_rows()
+
+
 		rotation_index = 0
 		piece_type = next_piece_type
 		piece_atlas = next_piece_atlas
@@ -274,6 +284,7 @@ func check_rows():
 				count+=1
 		if count == COL:
 			shift_row(row)
+			
 			$Audio/Splash.play()
 			line_clear += 1
 			speed += ACCEL
@@ -281,6 +292,8 @@ func check_rows():
 		else:
 			row -= 1
 	score += calculate_line_clear()
+	save_score()
+	load_score()
 	$CanvasLayer/Score.text = "Score:\n    %s" % [  score]
 func calculate_line_clear():
 	var reward = 0
@@ -364,6 +377,7 @@ func check_game_over():
 		if not is_free(ii + cur_pos + Vector2i.DOWN):
 			game_running = false
 			set_board_layer()
+			save_score()
 			print("game over")
 			
 
@@ -461,3 +475,14 @@ func show_gained_point(point_msg):
 	#await get_tree().create_timer(0.1).timeout
 	obj.visible = false
 	obj.scale = Vector2(0.2, 0.2)
+
+func save_score():
+	if score > highest_score:
+		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE_READ)
+		file.store_32(score)
+
+func load_score():
+	var file = FileAccess.open(SAVEFILE, FileAccess.READ)
+	if FileAccess.file_exists(SAVEFILE):
+		highest_score = file.get_32()
+		$CanvasLayer/Record.text = "Record: " + str(highest_score)

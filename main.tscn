@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://rf7whf3esicw"]
+[gd_scene load_steps=27 format=3 uid="uid://rf7whf3esicw"]
 
 [ext_resource type="Texture2D" uid="uid://bialqrey8thef" path="res://assets/Tetriminos/Board/BG_1.png" id="1_m252b"]
 [ext_resource type="Script" path="res://Main.gd" id="1_pkyhh"]
@@ -17,6 +17,8 @@
 [ext_resource type="AudioStream" uid="uid://dwvwut6ci7dyt" path="res://audio/land_soft.wav" id="13_gield"]
 [ext_resource type="AudioStream" uid="uid://l0qmuejpfb0p" path="res://audio/Error  Sound Effects (No Copyright).mp3" id="16_lywv7"]
 [ext_resource type="Script" path="res://Camera.gd" id="16_wuwll"]
+[ext_resource type="PackedScene" uid="uid://c2h155ybr53c8" path="res://MainMenu.tscn" id="18_ys8g3"]
+[ext_resource type="Script" path="res://main_menu.gd" id="19_pev7i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dur1s"]
 texture = ExtResource("1_m252b")
@@ -213,6 +215,15 @@ theme_override_font_sizes/font_size = 65
 text = "Score: 
     0 "
 
+[node name="Record" type="Label" parent="CanvasLayer"]
+offset_left = 32.0
+offset_top = 192.0
+offset_right = 288.0
+offset_bottom = 352.0
+theme_override_fonts/font = ExtResource("4_mqrdu")
+theme_override_font_sizes/font_size = 35
+text = "Record: 0 "
+
 [node name="Next" type="Label" parent="CanvasLayer"]
 offset_left = 704.0
 offset_top = 256.0
@@ -306,6 +317,9 @@ script = ExtResource("16_wuwll")
 
 [node name="Timer" type="Timer" parent="Camera2D"]
 one_shot = true
+
+[node name="MainMenu" parent="." instance=ExtResource("18_ys8g3")]
+script = ExtResource("19_pev7i")
 
 [connection signal="pressed" from="CanvasLayer/MuteBackground" to="Audio" method="mute_play_background"]
 [connection signal="pressed" from="CanvasLayer/MuteFx" to="Audio" method="mute_fx"]
