@@ -94,7 +94,9 @@ func _ready():
 	new_game()
 	audio_ins = get_node("Audio")
 	print("Başlangıç rotation indexi" + str(rotation_index))
-	
+func _input(event):
+	if event.is_action_pressed("restart"):
+			get_tree().reload_current_scene()
 
 func _process(delta):
 	if game_running:
@@ -108,8 +110,7 @@ func _process(delta):
 			land_instant()
 			audio_ins.land_instant_sound()
 		
-		if Input.is_action_just_pressed("restart"):
-			get_tree().reload_current_scene()
+		
 
 		#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
 		if Input.is_action_just_pressed("ui_left"):
@@ -146,18 +147,8 @@ func _process(delta):
 				steps[ii] = 0
 		move_ghost_piece_down()
 
-		
-
-		if !can_move(Vector2i.DOWN):
-			await get_tree().create_timer(0.5).timeout
-			if !can_move(Vector2i.DOWN):
-				audio_ins.land_soft_sound()
-				land_piece()
 
 
-
-
-	
 
 func land_instant():
 	while(can_move(Vector2i.DOWN)):
@@ -247,6 +238,14 @@ func move_piece(dir):
 		clear_piece()
 		cur_pos+=dir
 		draw_piece(active_piece,cur_pos, piece_atlas)
+	else:
+		if dir == Vector2i.DOWN:
+			while(true):
+				await get_tree().create_timer(0.5).timeout
+				if !can_move(dir):
+					audio_ins.land_soft_sound()
+					land_piece()
+					break
 
 func land_piece():
 		set_board_layer()
