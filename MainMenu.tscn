@@ -14,3 +14,22 @@ theme_override_font_sizes/font_size = 30
 text = "Press Space To Start"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 416.0
+offset_right = 772.0
+offset_bottom = 470.0
+theme_override_colors/font_color = Color(0.796078, 0.796078, 0.796078, 1)
+theme_override_fonts/font = ExtResource("1_751wt")
+theme_override_font_sizes/font_size = 20
+text = "A-D or Arrows : Left and Right
+W or Arrow: Rotate
+S or Arrow: Soft Drop
+Space: Hard Drop
+C: Stash the block
+R: Give Up
+P: Pause
+"
+horizontal_alignment = 1
+vertical_alignment = 1

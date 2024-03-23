@@ -103,9 +103,9 @@ func _ready():
 	
 	audio_ins = get_node("Audio")
 func _input(event):
-	if event.is_action_pressed("restart"):
+	if event.is_action_pressed("restart") and game_running:
 			save_score()
-			get_tree().reload_current_scene()
+			game_over()
 	if event.is_action_pressed("pause") and is_pause_avail:
 			pause_game()
 
@@ -116,7 +116,7 @@ func _process(delta):
 			audio_ins.rotate_sound()
 		if Input.is_action_just_pressed("change_block"):
 			stash_block()
-			$Audio/Stash.play()
+			
 		if Input.is_action_just_pressed("land_instant"):
 			land_instant()
 			audio_ins.land_instant_sound()
@@ -182,7 +182,6 @@ func new_game():
 	stash_piece_type = null
 	piece_type = pick_piece()
 	next_piece_type = pick_piece()
-	#stash_piece_type = -1
 	piece_atlas = Vector2i(shapes_full.find(piece_type) , 0)
 	next_piece_atlas = Vector2i(shapes_full.find(next_piece_type), 0)
 	ghost_piece_atlas = Vector2i(0, 1)
@@ -205,7 +204,8 @@ func start_game():
 		await get_tree().create_timer(0.05).timeout
 		$Audio/LandSoft.play()
 		for jj in range(COL):
-			erase_cell(board_layer, Vector2i(jj + 1, ii + 1)) 
+			erase_cell(board_layer, Vector2i(jj + 1, ii + 1))
+
 		
 	new_game()
 
@@ -315,14 +315,15 @@ func land_piece():
 
 func check_rows():
 	var row = ROW
+	
 	while row > 0:
 		var count = 0
 		for ii in range(COL):
 			if not is_free(Vector2i(ii + 1, row)):
 				count+=1
 		if count == COL:
-			shift_row(row)
 			
+			shift_row(row)
 			$Audio/Splash.play()
 			line_clear += 1
 			speed += ACCEL
@@ -333,23 +334,24 @@ func check_rows():
 	save_score()
 	load_score()
 	$CanvasLayer/Score.text = "Score:\n    %s" % [  score]
+
 func calculate_line_clear():
 	var reward = 0
 
 	if line_clear == 1:
 		reward = 100
-		Global.camera.shake(0.2,3)
+		Global.camera.shake(0.3,5)
 		show_gained_point("SINGLE\n 100")
 	elif line_clear == 2:
 		reward = 400
-		Global.camera.shake(0.2,5)
+		Global.camera.shake(0.3,7)
 		show_gained_point("DOUBLE\n 400")
 	elif line_clear == 3:
 		reward = 900
-		Global.camera.shake(0.2,7)
+		Global.camera.shake(0.3,8)
 		show_gained_point("TRIPLE\n 900")
 	elif line_clear == 4:
-		Global.camera.shake(0.2,10)
+		Global.camera.shake(0.3,10)
 		reward = 2000
 		show_gained_point("TETRIS\n 2000")
 	
@@ -367,6 +369,8 @@ func shift_row(row):
 			else:
 				set_cell(board_layer, Vector2i(col + 1, row), tile_id, atlas)
 		row-=1
+
+
 
 func can_move(dir):
 	var result = true
@@ -409,21 +413,6 @@ func can_rotate():
 		if not is_free(cur_pos + ii):
 			cr = false
 	return cr
-
-func check_game_over():
-	for ii in active_piece:
-		if not is_free(ii + cur_pos + Vector2i.DOWN):
-			game_running = false
-			set_board_layer()
-
-			clean_panel()
-			clean_stash_panel()
-
-			save_score()
-			$Audio/Korobeiniki.stop()
-			$Audio/GameOver.play()
-			show_you_died()
-			
 
 func clear_board():
 	for ii in range(ROW):
@@ -483,7 +472,7 @@ func stash_block():
 
 		if stash_piece_type == null:
 			
-
+			print("girdim")
 			piece_type = next_piece_type
 			piece_atlas = next_piece_atlas
 
@@ -501,6 +490,10 @@ func stash_block():
 		draw_piece(stash_piece_type[0], Vector2i(15, 15), stash_piece_atlas)
 
 		is_block_change_used = true
+
+
+
+		$Audio/Stash.play()
 
 		clean_panel()
 		clear_piece()
@@ -566,5 +559,24 @@ func show_you_died():
 	for ii in range(ROW):
 		for jj in range(COL):
 			erase_cell(ghost_layer, Vector2i(jj + 1, ii + 1)) 
+
+
+func game_over():
+	game_running = false
+	is_block_change_used = false
+	set_board_layer()
+
+	clean_panel()
+	clean_stash_panel()
+
+	save_score()
+	$Audio/Korobeiniki.stop()
+	$Audio/GameOver.play()
+	show_you_died()
+
+func check_game_over():
+	for ii in active_piece:
+		if not is_free(ii + cur_pos + Vector2i.DOWN):
+			game_over()
 
 

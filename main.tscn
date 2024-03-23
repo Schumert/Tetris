@@ -256,6 +256,7 @@ scale = Vector2(1, 0.557233)
 
 [node name="YouDied" type="Label" parent="CanvasLayer/Panel"]
 modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_left = 32.0
 offset_top = 7.10657
 offset_right = 288.0
