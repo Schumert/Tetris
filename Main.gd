@@ -60,6 +60,7 @@ var line_clear : int
 var score : int
 var highest_score: int
 var game_running : bool
+var main_menu_running: bool
 
 var piece_type
 var next_piece_type
@@ -96,16 +97,15 @@ const SAVEFILE = "user://tetris_save.dat"
 
 func _ready():
 	load_score()
-	new_game()
+	
 	audio_ins = get_node("Audio")
-	print("Başlangıç rotation indexi" + str(rotation_index))
 func _input(event):
 	if event.is_action_pressed("restart"):
 			save_score()
 			get_tree().reload_current_scene()
 
 func _process(delta):
-	if game_running:
+	if game_running and not main_menu_running:
 		if Input.is_action_just_pressed("ui_up"):
 			rotate_piece()
 			audio_ins.rotate_sound()
@@ -152,15 +152,15 @@ func _process(delta):
 				move_ghost_piece_hor(Vector2i.DOWN)
 				steps[ii] = 0
 		move_ghost_piece_down()
+	else:
+		if Input.is_action_just_pressed("land_instant"):
+			start_game()
+			main_menu_running = false
 
 
 
 
-func land_instant():
-	while(can_move(Vector2i.DOWN)):
-		move_piece(Vector2i.DOWN)
-	land_piece()
-	
+
 
 
 func new_game():
@@ -169,7 +169,6 @@ func new_game():
 	speed = 1
 	steps = [0, 0, 0]
 
-	clear_board()
 	clean_panel()
 	clear_piece()
 
@@ -183,8 +182,23 @@ func new_game():
 	
 	create_piece()
 	
-	
 
+
+func start_game():
+	var main_menu := $MainMenu
+	main_menu.hide_slowly()
+	for ii in range(ROW):
+		await get_tree().create_timer(0.05).timeout
+		for jj in range(COL):
+			erase_cell(board_layer, Vector2i(jj + 1, ii + 1)) 
+		
+	new_game()
+	
+func land_instant():
+	while(can_move(Vector2i.DOWN)):
+		move_piece(Vector2i.DOWN)
+	land_piece()
+	
 
 func pick_piece():
 	var piece
@@ -486,3 +500,5 @@ func load_score():
 	if FileAccess.file_exists(SAVEFILE):
 		highest_score = file.get_32()
 		$CanvasLayer/Record.text = "Record: " + str(highest_score)
+
+

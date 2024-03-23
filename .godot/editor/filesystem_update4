@@ -2,3 +2,6 @@ res://Main.gd
 res://main.tscn
 res://MainMenu.tscn
 res://main_menu.gd
+res://Camera.gd
+res://global.gd
+res://AudioPlayer.gd
