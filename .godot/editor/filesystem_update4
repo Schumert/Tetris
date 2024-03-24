@@ -1,7 +1,5 @@
-res://main_menu.gd
 res://Main.gd
 res://main.tscn
 res://MainMenu.tscn
-res://default_bus_layout.tres
 res://AudioPlayer.gd
 res://Camera.gd

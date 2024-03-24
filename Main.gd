@@ -106,8 +106,8 @@ func _input(event):
 	if event.is_action_pressed("restart") and game_running:
 			save_score()
 			game_over()
-	if event.is_action_pressed("pause") and is_pause_avail:
-			pause_game()
+	#if event.is_action_pressed("pause") and is_pause_avail:
+	#		pause_game()
 
 func _process(delta):
 	if game_running:
@@ -286,12 +286,12 @@ func move_piece(dir):
 		draw_piece(active_piece,cur_pos, piece_atlas)
 	else:
 		if dir == Vector2i.DOWN:
-			while(true):
-				await get_tree().create_timer(0.5).timeout
-				if !can_move(dir):
-					audio_ins.land_soft_sound()
-					land_piece()
-					break
+			await get_tree().create_timer(0.5).timeout #It is buggy: Works on firts land, doesn't on others
+			if !can_move(dir):
+				audio_ins.land_soft_sound()
+				land_piece()
+
+	
 
 func land_piece():
 		set_board_layer()
@@ -326,7 +326,8 @@ func check_rows():
 			shift_row(row)
 			$Audio/Splash.play()
 			line_clear += 1
-			speed += ACCEL
+			if speed < 20:
+				speed += ACCEL
 			
 		else:
 			row -= 1
