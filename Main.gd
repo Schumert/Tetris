@@ -342,7 +342,6 @@ func rotate_piece():
 
 #landing and pointing
 
-
 func land_piece():
 		set_board_layer()
 		#show_gained_point("TETRIS!\n 2000")
@@ -417,7 +416,7 @@ func calculate_line_clear():
 
 
 
-
+#check section
 func can_move(dir):
 	var result = true
 	for ii in active_piece:
@@ -533,7 +532,7 @@ func check_game_over():
 		if not is_free(ii + cur_pos + Vector2i.DOWN):
 			game_over()
 
-#UI stuff
+#UI
 func show_gained_point(point_msg):
 	var msg = $CanvasLayer/PointGained
 	msg.text = point_msg
@@ -548,18 +547,6 @@ func show_gained_point(point_msg):
 	#await get_tree().create_timer(0.1).timeout
 	msg.visible = false
 	msg.scale = Vector2(0.2, 0.2)
-
-func save_score():
-	if score > highest_score:
-		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE_READ)
-		file.store_32(score)
-
-func load_score():
-	var file = FileAccess.open(SAVEFILE, FileAccess.READ)
-	if FileAccess.file_exists(SAVEFILE):
-		highest_score = file.get_32()
-		$CanvasLayer/Record.text = "Record: " + str(highest_score)
-
 
 func show_you_died():
 	var black_template = $CanvasLayer/Panel
@@ -592,3 +579,16 @@ func show_you_died():
 	for ii in range(ROW):
 		for jj in range(COL):
 			erase_cell(ghost_layer, Vector2i(jj + 1, ii + 1)) 
+
+
+#save&load
+func save_score():
+	if score > highest_score:
+		var file = FileAccess.open(SAVEFILE, FileAccess.WRITE_READ)
+		file.store_32(score)
+
+func load_score():
+	var file = FileAccess.open(SAVEFILE, FileAccess.READ)
+	if FileAccess.file_exists(SAVEFILE):
+		highest_score = file.get_32()
+		$CanvasLayer/Record.text = "Record: " + str(highest_score)
