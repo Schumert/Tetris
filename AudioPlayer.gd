@@ -4,11 +4,15 @@ extends Node
 @export var button2:Button
 var bus_index_music:int = 1
 var bus_index_fx:int = 2
+
+var is_music_stop = false
+var is_fx_stop = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-var is_music_stop = false
+
 func mute_play_background():
 	if is_music_stop:
 		#$Korobeiniki.volume_db = -20
@@ -20,7 +24,7 @@ func mute_play_background():
 		AudioServer.set_bus_volume_db(bus_index_music, -80)
 		is_music_stop = true
 		button.release_focus()
-var is_fx_stop = false
+
 func mute_fx():
 	if is_fx_stop:
 		AudioServer.set_bus_volume_db(bus_index_fx, 0)

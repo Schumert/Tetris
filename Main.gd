@@ -227,13 +227,9 @@ func pause_game():
 
 
 #drawing
-func draw_piece(piece, pos, atlas):
+func draw_piece(piece, pos, atlas, tile_id_given, layer):
 	for ii in piece:
-		set_cell(active_layer, pos + ii, tile_id, atlas)
-
-func draw_piece_ghost(piece, pos, atlas):
-	for ii in piece:
-		set_cell(ghost_layer, pos + ii, ghost_tile_id, atlas)
+		set_cell(layer, pos + ii, tile_id_given, atlas)
 
 func set_board_layer():
 	for ii in active_piece:
@@ -261,36 +257,29 @@ func create_piece():
 	ghost_cur_pos = cur_pos
 	active_piece = piece_type[0]
 	ghost_piece = active_piece
-	draw_piece(active_piece, start_pos, piece_atlas)
+	draw_piece(active_piece, start_pos, piece_atlas, tile_id, active_layer)
 	#
-	draw_piece(next_piece_type[0], Vector2i(15, 4), next_piece_atlas)
+	draw_piece(next_piece_type[0], Vector2i(15, 4), next_piece_atlas, tile_id, active_layer)
 	
 
 
 #ghost functions
-func can_ghost_move(dir):
-	var result = true
-	for ii in ghost_piece:
-		if not is_free( ii + ghost_cur_pos + dir):
-			result = false
-	return result
-
 func move_ghost_piece_down():
 	for ii in ghost_piece:
 			erase_cell(ghost_layer, ghost_cur_pos + ii)
 	ghost_cur_pos = cur_pos
-	while can_ghost_move(Vector2i.DOWN):
+	while can_move(Vector2i.DOWN, ghost_cur_pos, ghost_piece):
 		ghost_cur_pos += Vector2i.DOWN
 	
-	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
-	
+	draw_piece(ghost_piece, ghost_cur_pos, ghost_piece_atlas, ghost_tile_id, ghost_layer)
+
 func move_ghost_piece_hor(dir):
 	for ii in ghost_piece:
 		erase_cell(ghost_layer, ghost_cur_pos + ii)
-	if can_ghost_move(dir):
+	if can_move(dir, ghost_cur_pos, ghost_piece):
 		ghost_cur_pos += dir
 
-	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
+	draw_piece(ghost_piece, ghost_cur_pos, ghost_piece_atlas, ghost_tile_id, ghost_layer)
 	
 
 
@@ -298,14 +287,14 @@ func move_ghost_piece_hor(dir):
 
 #moving piece functions
 func move_piece(dir):
-	if can_move(dir):
+	if can_move(dir, cur_pos, active_piece):
 		clear_piece()
 		cur_pos+=dir
-		draw_piece(active_piece,cur_pos, piece_atlas)
+		draw_piece(active_piece,cur_pos, piece_atlas, tile_id, active_layer)
 	else:
 		if dir == Vector2i.DOWN:
 			await get_tree().create_timer(0.5).timeout #It is buggy: Works on firts land, doesn't on others
-			if !can_move(dir):
+			if !can_move(dir, cur_pos, active_piece):
 				audio_ins.land_soft_sound()
 				land_piece()
 	
@@ -335,9 +324,9 @@ func rotate_piece():
 		$Audio/CantRotate.play()
 		
 
-	draw_piece(active_piece, cur_pos, piece_atlas)
+	draw_piece(active_piece, cur_pos, piece_atlas, tile_id, active_layer)
 	print("Döndü %s" % str(rotation_index))
-	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
+	draw_piece(ghost_piece, ghost_cur_pos, ghost_piece_atlas, ghost_tile_id, ghost_layer)
 
 
 #landing and pointing
@@ -359,7 +348,7 @@ func land_piece():
 		check_game_over()
 		
 func land_instant():
-	while(can_move(Vector2i.DOWN)):
+	while(can_move(Vector2i.DOWN, cur_pos, active_piece)):
 		move_piece(Vector2i.DOWN)
 	land_piece()
 	
@@ -417,10 +406,10 @@ func calculate_line_clear():
 
 
 #check section
-func can_move(dir):
+func can_move(dir, pos, active_or_ghost_piece):
 	var result = true
-	for ii in active_piece:
-		if not is_free( ii + cur_pos + dir):
+	for ii in active_or_ghost_piece:
+		if not is_free( ii + pos + dir):
 			result = false
 	return result
 
@@ -458,7 +447,7 @@ func clear_piece():
 	for ii in active_piece:
 		erase_cell(active_layer, cur_pos + ii)
 
-#I use stash_block func instead of this
+#I use stash_block func instead of change_block
 func change_block():
 	if !is_block_change_used:
 		var temp_piece_type = piece_type
@@ -500,7 +489,7 @@ func stash_block():
 
 
 		clean_stash_panel()
-		draw_piece(stash_piece_type[0], Vector2i(15, 15), stash_piece_atlas)
+		draw_piece(stash_piece_type[0], Vector2i(15, 15), stash_piece_atlas, tile_id, active_layer)
 
 		is_block_change_used = true
 

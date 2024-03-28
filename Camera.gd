@@ -21,7 +21,6 @@ func _process(delta):
 	offset = Vector2( randf_range(-1 ,1) * shake_amount, randf_range(-1, 1) * shake_amount )
 
 func shake(time: float, amount: float):
-	
 	timer.wait_time = time
 	shake_amount = amount
 	set_process(true)
