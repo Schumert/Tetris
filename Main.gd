@@ -43,6 +43,9 @@ var o_180 := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]
 var o_270 := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1), Vector2i(1, 1)]
 var o := [o_0, o_90, o_180, o_270]
 
+var shapes = [i, j, l, s, z, o, t]
+var shapes_full = shapes.duplicate()
+
 const ROW:int = 20
 const COL:int = 10
 
@@ -56,13 +59,23 @@ var ghost_cur_pos : Vector2i
 var speed = 1
 const ACCEL : float = 0.05
 
+
+#game variables
 var line_clear : int
 var score : int
 var highest_score: int
 var game_running : bool
 var main_menu_running: bool
 var is_pause_avail : bool
+var is_block_change_used = false
+var left_pressed = false
+var right_pressed = false
+var audio_ins
+const SAVEFILE = "user://tetris_save.dat"
 
+
+
+#game variables
 var piece_type
 var next_piece_type
 var stash_piece_type
@@ -70,6 +83,7 @@ var ghost_piece:Array
 var rotation_index : int = 0
 var active_piece:Array
 
+#tilemap variables
 var tile_id: int = 1
 var ghost_tile_id: int = 0
 var piece_atlas:Vector2i
@@ -77,22 +91,10 @@ var next_piece_atlas:Vector2i
 var ghost_piece_atlas:Vector2i
 var stash_piece_atlas:Vector2i
 
+#layer variables
 var board_layer : int = 1
 var active_layer : int = 2
 var ghost_layer : int= 0
-
-var shapes = [i, j, l, s, z, o, t]
-var shapes_full = shapes.duplicate()
-
-var is_block_change_used = false
-
-var left_pressed = false
-var right_pressed = false
-
-var audio_ins
-
-
-const SAVEFILE = "user://tetris_save.dat"
 
 
 
@@ -100,12 +102,14 @@ func _ready():
 	main_menu_running = true
 	is_pause_avail = false
 	load_score()
-	
 	audio_ins = get_node("Audio")
+
+
 func _input(event):
 	if event.is_action_pressed("restart") and game_running:
 			save_score()
 			game_over()
+	#pause function is buggy
 	#if event.is_action_pressed("pause") and is_pause_avail:
 	#		pause_game()
 
@@ -123,7 +127,7 @@ func _process(delta):
 		
 		
 
-		#This 2 block of code let us move the blocks 1 pixel before getting out of hand.
+		#This 2 block of conditions let us move the blocks 1 pixel before it moves continuesly.
 		if Input.is_action_just_pressed("ui_left"):
 			if not left_pressed:  
 				left_pressed = true
@@ -141,7 +145,7 @@ func _process(delta):
 				audio_ins.move_sound()
 
 		
-
+		#Makes blocks move continuesly
 		if not left_pressed and Input.is_action_pressed("ui_left"):
 			steps[0] += 20
 		if not right_pressed and Input.is_action_pressed("ui_right"):
@@ -150,7 +154,9 @@ func _process(delta):
 			steps[2] += 20
 
 		steps[2] += speed
-		#move the piece
+
+
+		#move the pieces if requirement 'steps' condition is met
 		for ii in range(steps.size()):
 			if steps[ii] >= steps_req:
 				move_piece(directions[ii])
@@ -167,7 +173,7 @@ func _process(delta):
 
 
 
-
+#game functions
 func new_game():
 	
 	game_running = true
@@ -191,8 +197,6 @@ func new_game():
 	$Audio/Korobeiniki.play()
 	is_pause_avail = true
 	
-
-
 func start_game():
 	var main_menu := $MainMenu
 	$Audio/Splash.play()
@@ -218,12 +222,27 @@ func pause_game():
 		game_running = true
 		$Audio/Korobeiniki.play()
 	
-func land_instant():
-	while(can_move(Vector2i.DOWN)):
-		move_piece(Vector2i.DOWN)
-	land_piece()
-	
 
+
+
+
+#drawing
+func draw_piece(piece, pos, atlas):
+	for ii in piece:
+		set_cell(active_layer, pos + ii, tile_id, atlas)
+
+func draw_piece_ghost(piece, pos, atlas):
+	for ii in piece:
+		set_cell(ghost_layer, pos + ii, ghost_tile_id, atlas)
+
+func set_board_layer():
+	for ii in active_piece:
+		erase_cell(active_layer, cur_pos + ii)
+		set_cell(board_layer, cur_pos + ii, tile_id, piece_atlas)
+
+
+
+#pick and create piece
 func pick_piece():
 	var piece
 	if not shapes.is_empty():
@@ -248,13 +267,13 @@ func create_piece():
 	
 
 
+#ghost functions
 func can_ghost_move(dir):
 	var result = true
 	for ii in ghost_piece:
 		if not is_free( ii + ghost_cur_pos + dir):
 			result = false
 	return result
-
 
 func move_ghost_piece_down():
 	for ii in ghost_piece:
@@ -264,7 +283,6 @@ func move_ghost_piece_down():
 		ghost_cur_pos += Vector2i.DOWN
 	
 	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
-	
 	
 func move_ghost_piece_hor(dir):
 	for ii in ghost_piece:
@@ -278,7 +296,7 @@ func move_ghost_piece_hor(dir):
 
 
 
-
+#moving piece functions
 func move_piece(dir):
 	if can_move(dir):
 		clear_piece()
@@ -290,8 +308,40 @@ func move_piece(dir):
 			if !can_move(dir):
 				audio_ins.land_soft_sound()
 				land_piece()
-
 	
+func shift_row(row):
+	var atlas
+	while row > 1:
+		for col in range(COL):
+			atlas = get_cell_atlas_coords(board_layer, Vector2i(col + 1, row - 1))
+			if is_free(atlas):
+				erase_cell(board_layer, Vector2i(col + 1, row))
+				erase_cell(ghost_layer,Vector2i(col + 1, row))
+			else:
+				set_cell(board_layer, Vector2i(col + 1, row), tile_id, atlas)
+		row-=1
+	
+func rotate_piece():
+	print("Fonksiyona girildi")
+	if can_rotate():
+		print("Dönebilir")
+		clear_piece()
+		for ii in ghost_piece:
+			erase_cell(ghost_layer, ghost_cur_pos + ii)
+		rotation_index = (rotation_index + 1) % 4
+		active_piece = piece_type[rotation_index]
+		ghost_piece = active_piece
+	else:
+		$Audio/CantRotate.play()
+		
+
+	draw_piece(active_piece, cur_pos, piece_atlas)
+	print("Döndü %s" % str(rotation_index))
+	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
+
+
+#landing and pointing
+
 
 func land_piece():
 		set_board_layer()
@@ -309,10 +359,11 @@ func land_piece():
 		create_piece()
 		check_game_over()
 		
-
-
-
-
+func land_instant():
+	while(can_move(Vector2i.DOWN)):
+		move_piece(Vector2i.DOWN)
+	land_piece()
+	
 func check_rows():
 	var row = ROW
 	
@@ -359,17 +410,11 @@ func calculate_line_clear():
 	line_clear = 0
 	return reward
 
-func shift_row(row):
-	var atlas
-	while row > 1:
-		for col in range(COL):
-			atlas = get_cell_atlas_coords(board_layer, Vector2i(col + 1, row - 1))
-			if is_free(atlas):
-				erase_cell(board_layer, Vector2i(col + 1, row))
-				erase_cell(ghost_layer,Vector2i(col + 1, row))
-			else:
-				set_cell(board_layer, Vector2i(col + 1, row), tile_id, atlas)
-		row-=1
+
+
+
+
+
 
 
 
@@ -380,33 +425,6 @@ func can_move(dir):
 			result = false
 	return result
 
-
-func set_board_layer():
-	for ii in active_piece:
-		erase_cell(active_layer, cur_pos + ii)
-		set_cell(board_layer, cur_pos + ii, tile_id, piece_atlas)
-
-
-func rotate_piece():
-	print("Fonksiyona girildi")
-	if can_rotate():
-		print("Dönebilir")
-		clear_piece()
-		for ii in ghost_piece:
-			erase_cell(ghost_layer, ghost_cur_pos + ii)
-		rotation_index = (rotation_index + 1) % 4
-		active_piece = piece_type[rotation_index]
-		ghost_piece = active_piece
-	else:
-		$Audio/CantRotate.play()
-		
-
-	draw_piece(active_piece, cur_pos, piece_atlas)
-	print("Döndü %s" % str(rotation_index))
-	draw_piece_ghost(ghost_piece, ghost_cur_pos, ghost_piece_atlas)
-		
-		
-
 func can_rotate():
 	var cr = true
 	var temp_rotation_index = (rotation_index + 1) % 4
@@ -415,28 +433,13 @@ func can_rotate():
 			cr = false
 	return cr
 
-func clear_board():
-	for ii in range(ROW):
-		for jj in range(COL):
-			erase_cell(board_layer, Vector2i(jj + 1, ii + 1)) 
-
-func clear_piece():
-	for ii in active_piece:
-		erase_cell(active_layer, cur_pos + ii)
-
 func is_free(pos):
 	return get_cell_source_id(board_layer, pos) == -1
 
 
-func draw_piece(piece, pos, atlas):
-	for ii in piece:
-		set_cell(active_layer, pos + ii, tile_id, atlas)
-
-func draw_piece_ghost(piece, pos, atlas):
-	for ii in piece:
-		set_cell(ghost_layer, pos + ii, ghost_tile_id, atlas)
 
 
+#cleaning
 func clean_panel():
 	for ii in range(14, 19):
 				for jj in range(3, 7):
@@ -447,6 +450,16 @@ func clean_stash_panel():
 				for jj in range(10, 20):
 					erase_cell(active_layer, Vector2i(ii, jj))
 
+func clear_board():
+	for ii in range(ROW):
+		for jj in range(COL):
+			erase_cell(board_layer, Vector2i(jj + 1, ii + 1)) 
+
+func clear_piece():
+	for ii in active_piece:
+		erase_cell(active_layer, cur_pos + ii)
+
+#I use stash_block func instead of this
 func change_block():
 	if !is_block_change_used:
 		var temp_piece_type = piece_type
@@ -501,7 +514,26 @@ func stash_block():
 
 		create_piece()
 
+#gameover
+func game_over():
+	game_running = false
+	is_block_change_used = false
+	set_board_layer()
 
+	clean_panel()
+	clean_stash_panel()
+
+	save_score()
+	$Audio/Korobeiniki.stop()
+	$Audio/GameOver.play()
+	show_you_died()
+
+func check_game_over():
+	for ii in active_piece:
+		if not is_free(ii + cur_pos + Vector2i.DOWN):
+			game_over()
+
+#UI stuff
 func show_gained_point(point_msg):
 	var msg = $CanvasLayer/PointGained
 	msg.text = point_msg
@@ -560,24 +592,3 @@ func show_you_died():
 	for ii in range(ROW):
 		for jj in range(COL):
 			erase_cell(ghost_layer, Vector2i(jj + 1, ii + 1)) 
-
-
-func game_over():
-	game_running = false
-	is_block_change_used = false
-	set_board_layer()
-
-	clean_panel()
-	clean_stash_panel()
-
-	save_score()
-	$Audio/Korobeiniki.stop()
-	$Audio/GameOver.play()
-	show_you_died()
-
-func check_game_over():
-	for ii in active_piece:
-		if not is_free(ii + cur_pos + Vector2i.DOWN):
-			game_over()
-
-
