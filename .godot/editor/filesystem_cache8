@@ -1,15 +1,16 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1711634491
-AudioPlayer.gd::GDScript::-1::1711223414::0::1::::<>Node<>::
-Camera.gd::GDScript::-1::1711159452::0::1::::<>Camera2D<>::
+::res://::1746139672
+AudioPlayer.gd::GDScript::-1::1711637645::0::1::::<>Node<>::
+background_for_itchio.tscn::PackedScene::8702515122484391784::1746132508::0::1::::<><>::uid://bialqrey8thef::::res://assets/Tetriminos/Board/BG_1.png<>uid://2bpt0kvtkqsp::::res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://beaqyaqwomiah::::res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://pubox73dflnq::::res://font/yoster.ttf<>uid://dyn31bljs607g::::res://assets/no-headphones -64.png<>uid://dp0jgfwwga7cv::::res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>res://AudioPlayer.gd<>uid://bq77ktvwaprs3::::res://audio/splash.mp3<>uid://bir1cvspfcm3q::::res://audio/Korobeiniki.mp3<>uid://dx2couik0ikcx::::res://audio/grass (mp3cut.net).mp3<>uid://dwvwut6ci7dyt::::res://audio/land_soft.wav<>uid://cngppkl4y8o21::::res://audio/chest_open.mp3<>uid://l0qmuejpfb0p::::res://audio/Error  Sound Effects (No Copyright).mp3<>uid://b5kdhia0r8pvw::::res://audio/Game Over Sound Effect.mp3<>uid://c2h155ybr53c8::::res://MainMenu.tscn
+Camera.gd::GDScript::-1::1711637640::0::1::::<>Camera2D<>::
 default_bus_layout.tres::AudioBusLayout::8976271158371580064::1711222588::0::1::::<><>::
 export_presets.cfg::TextFile::-1::1711235147::0::1::::<><>::
-global.gd::GDScript::-1::1711156538::0::1::::<>Node<>::
+global.gd::GDScript::-1::1715769659::0::1::::<>Node<>::
 icon.svg::CompressedTexture2D::1575636068426309231::1710618293::1710618305::1::::<><>::
-Main.gd::GDScript::-1::1711249087::0::1::::<>TileMap<>::
-main.tscn::PackedScene::1205514838517011082::1711248979::0::1::::<><>::uid://bialqrey8thef::::res://assets/Tetriminos/Board/BG_1.png<>res://Main.gd<>uid://2bpt0kvtkqsp::::res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://beaqyaqwomiah::::res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://dyn31bljs607g::::res://assets/no-headphones -64.png<>uid://dp0jgfwwga7cv::::res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png<>uid://pubox73dflnq::::res://font/yoster.ttf<>uid://bq77ktvwaprs3::::res://audio/splash.mp3<>uid://bir1cvspfcm3q::::res://audio/Korobeiniki.mp3<>res://AudioPlayer.gd<>uid://cngppkl4y8o21::::res://audio/chest_open.mp3<>uid://dx2couik0ikcx::::res://audio/grass (mp3cut.net).mp3<>uid://dwvwut6ci7dyt::::res://audio/land_soft.wav<>uid://l0qmuejpfb0p::::res://audio/Error  Sound Effects (No Copyright).mp3<>res://Camera.gd<>uid://b5kdhia0r8pvw::::res://audio/Game Over Sound Effect.mp3<>uid://c2h155ybr53c8::::res://MainMenu.tscn<>res://main_menu.gd
-MainMenu.tscn::PackedScene::6684024618365744885::1711248976::0::1::::<><>::uid://pubox73dflnq::::res://font/yoster.ttf
-main_menu.gd::GDScript::-1::1711233933::0::1::::<>CanvasLayer<>::
+Main.gd::GDScript::-1::1711637557::0::1::::<>TileMap<>::
+main.tscn::PackedScene::1205514838517011082::1746132507::0::1::::<><>::uid://bialqrey8thef::::res://assets/Tetriminos/Board/BG_1.png<>uid://2bpt0kvtkqsp::::res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png<>uid://beaqyaqwomiah::::res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png<>uid://682c0vcnm8ak::::res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png<>uid://bssw8fv7ddup0::::res://return-of-ganon/retganon.ttf<>uid://dyn31bljs607g::::res://assets/no-headphones -64.png<>uid://dp0jgfwwga7cv::::res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png<>uid://pubox73dflnq::::res://font/yoster.ttf<>uid://bq77ktvwaprs3::::res://audio/splash.mp3<>uid://bir1cvspfcm3q::::res://audio/Korobeiniki.mp3<>res://AudioPlayer.gd<>uid://cngppkl4y8o21::::res://audio/chest_open.mp3<>uid://dx2couik0ikcx::::res://audio/grass (mp3cut.net).mp3<>uid://dwvwut6ci7dyt::::res://audio/land_soft.wav<>uid://l0qmuejpfb0p::::res://audio/Error  Sound Effects (No Copyright).mp3<>res://Camera.gd<>uid://b5kdhia0r8pvw::::res://audio/Game Over Sound Effect.mp3<>uid://c2h155ybr53c8::::res://MainMenu.tscn<>res://main_menu.gd
+MainMenu.tscn::PackedScene::6684024618365744885::1746132507::0::1::::<><>::uid://pubox73dflnq::::res://font/yoster.ttf
+main_menu.gd::GDScript::-1::1711637574::0::1::::<>CanvasLayer<>::
 ::res://assets/::1711236987
 logo.png::CompressedTexture2D::24729436427290114::1711234384::1711234406::1::::<><>::
 no-headphones -64.png::CompressedTexture2D::8872377785584265762::1711077960::1711077969::1::::<><>::

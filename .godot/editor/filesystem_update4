@@ -1,7 +1,5 @@
-res://Main.gd
 res://main.tscn
 res://MainMenu.tscn
+res://background_for_itchio.tscn
+res://Main.gd
 res://main_menu.gd
-res://global.gd
-res://Camera.gd
-res://AudioPlayer.gd

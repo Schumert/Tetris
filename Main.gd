@@ -58,6 +58,9 @@ var cur_pos : Vector2i
 var ghost_cur_pos : Vector2i
 var speed = 1
 const ACCEL : float = 0.05
+const max_rotations: int = 5 #rotation limit when the piece has no room to go down.
+var current_movement:int = 0
+var piece_about_to_land:bool = false
 
 
 #game variables
@@ -72,7 +75,7 @@ var left_pressed = false
 var right_pressed = false
 var audio_ins
 const SAVEFILE = "user://tetris_save.dat"
-
+@export var timer: Timer
 
 
 #game variables
@@ -127,14 +130,15 @@ func _process(delta):
 		
 		
 
-		#This 2 block of conditions let us move the blocks 1 pixel before it moves continuesly.
+		
 		if Input.is_action_just_pressed("ui_left"):
-			if not left_pressed:  
-				left_pressed = true
+			if not left_pressed:
 				move_piece(Vector2i.LEFT)
+				left_pressed = true
 				await get_tree().create_timer(0.1).timeout
 				left_pressed = false
 				audio_ins.move_sound()
+				
 
 		if Input.is_action_just_pressed("ui_right"):
 			if not right_pressed:  
@@ -142,14 +146,15 @@ func _process(delta):
 				move_piece(Vector2i.RIGHT)
 				await get_tree().create_timer(0.1).timeout
 				right_pressed = false
+				
 				audio_ins.move_sound()
 
 		
 		#Makes blocks move continuesly
 		if not left_pressed and Input.is_action_pressed("ui_left"):
-			steps[0] += 20
+			steps[0] += 10
 		if not right_pressed and Input.is_action_pressed("ui_right"):
-			steps[1] += 20
+			steps[1] += 10
 		if Input.is_action_pressed("ui_down"):
 			steps[2] += 20
 
@@ -159,8 +164,9 @@ func _process(delta):
 		#move the pieces if requirement 'steps' condition is met
 		for ii in range(steps.size()):
 			if steps[ii] >= steps_req:
-				move_piece(directions[ii])
 				move_ghost_piece_hor(Vector2i.DOWN)
+				move_piece(directions[ii])
+				
 				steps[ii] = 0
 		move_ghost_piece_down()
 	elif main_menu_running:
@@ -234,6 +240,7 @@ func draw_piece(piece, pos, atlas, tile_id_given, layer):
 func set_board_layer():
 	for ii in active_piece:
 		erase_cell(active_layer, cur_pos + ii)
+		erase_cell(ghost_layer, ghost_cur_pos + ii)
 		set_cell(board_layer, cur_pos + ii, tile_id, piece_atlas)
 
 
@@ -291,12 +298,29 @@ func move_piece(dir):
 		clear_piece()
 		cur_pos+=dir
 		draw_piece(active_piece,cur_pos, piece_atlas, tile_id, active_layer)
+
+		if piece_about_to_land:
+			timer.stop()
+			current_movement += 1
+			if current_movement == 5:
+				land_piece()
+				current_movement = 0
+				print("Hareket hakkım kalmadığı için indim.")
+		
+		if dir == Vector2i.DOWN:
+			current_movement = 0
 	else:
 		if dir == Vector2i.DOWN:
-			await get_tree().create_timer(0.5).timeout #It is buggy: Works on firts land, doesn't on others
+			piece_about_to_land = true
+			
 			if !can_move(dir, cur_pos, active_piece):
-				audio_ins.land_soft_sound()
-				land_piece()
+				timer.start()
+
+func rotate_time_out():
+	audio_ins.land_soft_sound()
+	land_piece()
+	current_movement = 0
+	print("Süre bittiği için indim.")
 	
 func shift_row(row):
 	var atlas
@@ -311,21 +335,30 @@ func shift_row(row):
 		row-=1
 	
 func rotate_piece():
-	print("Fonksiyona girildi")
 	if can_rotate():
-		print("Dönebilir")
+		#print("Dönebilir")
 		clear_piece()
 		for ii in ghost_piece:
 			erase_cell(ghost_layer, ghost_cur_pos + ii)
 		rotation_index = (rotation_index + 1) % 4
 		active_piece = piece_type[rotation_index]
 		ghost_piece = active_piece
+
+		if piece_about_to_land:
+			current_movement += 1
+			if current_movement == 5:
+				land_piece()
+				current_movement = 0
+				print("Hareket hakkım kalmadığı için indim.")
+				timer.stop()
+			else:
+				timer.start()
 	else:
 		$Audio/CantRotate.play()
 		
 
 	draw_piece(active_piece, cur_pos, piece_atlas, tile_id, active_layer)
-	print("Döndü %s" % str(rotation_index))
+	#print("Döndü %s" % str(rotation_index))
 	draw_piece(ghost_piece, ghost_cur_pos, ghost_piece_atlas, ghost_tile_id, ghost_layer)
 
 
@@ -346,11 +379,13 @@ func land_piece():
 		clean_panel()
 		create_piece()
 		check_game_over()
+		piece_about_to_land = false
 		
 func land_instant():
 	while(can_move(Vector2i.DOWN, cur_pos, active_piece)):
 		move_piece(Vector2i.DOWN)
 	land_piece()
+	print("Kendim istediğim için indim.")
 	
 func check_rows():
 	var row = ROW
@@ -474,7 +509,7 @@ func stash_block():
 
 		if stash_piece_type == null:
 			
-			print("girdim")
+			#print("girdim")
 			piece_type = next_piece_type
 			piece_atlas = next_piece_atlas
 

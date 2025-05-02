@@ -1,11 +1,11 @@
 [gd_scene load_steps=28 format=3 uid="uid://rf7whf3esicw"]
 
 [ext_resource type="Texture2D" uid="uid://bialqrey8thef" path="res://assets/Tetriminos/Board/BG_1.png" id="1_m252b"]
-[ext_resource type="Script" path="res://Main.gd" id="1_pkyhh"]
 [ext_resource type="Texture2D" uid="uid://2bpt0kvtkqsp" path="res://assets/Tetris Block Assets/Tetris Block Assets/tetris tiles.png" id="2_3hjpe"]
 [ext_resource type="Texture2D" uid="uid://beaqyaqwomiah" path="res://assets/Pato_Pack/Pato_Pack/Water animation/AnimatedWaterSprite.png" id="3_m0bjj"]
 [ext_resource type="Texture2D" uid="uid://682c0vcnm8ak" path="res://assets/Pato_Pack/Pato_Pack/Tileset/tileset_pato8.png" id="4_l1phl"]
 [ext_resource type="FontFile" uid="uid://bssw8fv7ddup0" path="res://return-of-ganon/retganon.ttf" id="4_mqrdu"]
+[ext_resource type="Script" path="res://Main.gd" id="5_cy3aq"]
 [ext_resource type="Texture2D" uid="uid://dyn31bljs607g" path="res://assets/no-headphones -64.png" id="6_m68ej"]
 [ext_resource type="Texture2D" uid="uid://dp0jgfwwga7cv" path="res://assets/Pato_Pack/Pato_Pack/Assets/assets_pato.png" id="6_p8c51"]
 [ext_resource type="FontFile" uid="uid://pubox73dflnq" path="res://font/yoster.ttf" id="6_x6ekn"]
@@ -116,7 +116,7 @@ texture_region_size = Vector2i(32, 32)
 5:7/0 = 0
 6:7/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_uwjfr"]
+[sub_resource type="TileSet" id="TileSet_wxp7m"]
 tile_size = Vector2i(32, 32)
 sources/1 = SubResource("TileSetAtlasSource_8jtd8")
 sources/0 = SubResource("TileSetAtlasSource_dur1s")
@@ -151,9 +151,9 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_mg1xl")
 
-[node name="TileMap" type="TileMap"]
+[node name="TileMap" type="TileMap" node_paths=PackedStringArray("timer")]
 position = Vector2(288, 1)
-tile_set = SubResource("TileSet_uwjfr")
+tile_set = SubResource("TileSet_wxp7m")
 rendering_quadrant_size = 32
 format = 2
 layer_0/name = "ghost"
@@ -163,7 +163,8 @@ layer_1/tile_data = PackedInt32Array(131072, 7, 1, 196608, 7, 1, 262144, 7, 1, 3
 layer_2/name = "active"
 layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
-script = ExtResource("1_pkyhh")
+script = ExtResource("5_cy3aq")
+timer = NodePath("Timer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -343,6 +344,11 @@ one_shot = true
 [node name="MainMenu" parent="." instance=ExtResource("18_ys8g3")]
 script = ExtResource("19_pev7i")
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="pressed" from="CanvasLayer/MuteBackground" to="Audio" method="mute_play_background"]
 [connection signal="pressed" from="CanvasLayer/MuteFx" to="Audio" method="mute_fx"]
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="rotate_time_out"]
