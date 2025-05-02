@@ -61,6 +61,7 @@ const ACCEL : float = 0.05
 const max_rotations: int = 5 #rotation limit when the piece has no room to go down.
 var current_movement:int = 0
 var piece_about_to_land:bool = false
+var current_action_before_land: Array = [0, 0] #first is rotation, second is horizontal movement
 
 
 #game variables
@@ -166,6 +167,7 @@ func _process(delta):
 			if steps[ii] >= steps_req:
 				move_ghost_piece_hor(Vector2i.DOWN)
 				move_piece(directions[ii])
+				Global.camera.offset = lerp(Global.camera.offset, Vector2(0,0), 0.5) #fixing the offset caused by screen-shake
 				
 				steps[ii] = 0
 		move_ghost_piece_down()
@@ -301,10 +303,11 @@ func move_piece(dir):
 
 		if piece_about_to_land:
 			timer.stop()
-			current_movement += 1
-			if current_movement == 5:
+			current_action_before_land[1] += 1
+			if current_action_before_land[1]  == 5:
 				land_piece()
-				current_movement = 0
+				for action in current_action_before_land:
+					action = 0
 				print("Hareket hakkım kalmadığı için indim.")
 		
 		if dir == Vector2i.DOWN:
@@ -319,7 +322,8 @@ func move_piece(dir):
 func rotate_time_out():
 	audio_ins.land_soft_sound()
 	land_piece()
-	current_movement = 0
+	for action in current_action_before_land:
+			action = 0
 	print("Süre bittiği için indim.")
 	
 func shift_row(row):
@@ -345,11 +349,12 @@ func rotate_piece():
 		ghost_piece = active_piece
 
 		if piece_about_to_land:
-			current_movement += 1
-			if current_movement == 5:
+			current_action_before_land[0] += 1
+			if current_action_before_land[0] == 5:
 				land_piece()
-				current_movement = 0
-				print("Hareket hakkım kalmadığı için indim.")
+				for action in current_action_before_land:
+					action = 0
+				print("Dönme hakkım kalmadığı için indim.")
 				timer.stop()
 			else:
 				timer.start()
@@ -405,31 +410,40 @@ func check_rows():
 			
 		else:
 			row -= 1
-	score += calculate_line_clear()
+	screen_shake()
+	score += calculate_score()
 	save_score()
 	load_score()
 	$CanvasLayer/Score.text = "Score:\n    %s" % [  score]
+	
 
-func calculate_line_clear():
+func screen_shake():
+	if line_clear == 1:
+		Global.camera.shake(0.3,5)
+	elif line_clear == 2:
+		Global.camera.shake(0.3,7)
+	elif line_clear == 3:
+		Global.camera.shake(0.3,8)
+	elif line_clear == 4:
+		Global.camera.shake(0.3,10)
+
+	
+
+func calculate_score():
 	var reward = 0
-
 	if line_clear == 1:
 		reward = 100
-		Global.camera.shake(0.3,5)
 		show_gained_point("SINGLE\n 100")
 	elif line_clear == 2:
 		reward = 400
-		Global.camera.shake(0.3,7)
 		show_gained_point("DOUBLE\n 400")
 	elif line_clear == 3:
 		reward = 900
-		Global.camera.shake(0.3,8)
 		show_gained_point("TRIPLE\n 900")
 	elif line_clear == 4:
-		Global.camera.shake(0.3,10)
 		reward = 2000
 		show_gained_point("TETRIS\n 2000")
-	
+
 	line_clear = 0
 	return reward
 
